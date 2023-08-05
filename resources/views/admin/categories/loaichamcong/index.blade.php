@@ -5,12 +5,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Vị trí công việc</h1>
+                    <h1 class="m-0">Loại chấm công</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Tổ chức</a></li>
-                        <li class="breadcrumb-item active">Vị trí công việc</li>
+                        <li class="breadcrumb-item"><a href="#">Danh mục</a></li>
+                        <li class="breadcrumb-item active">Loại chấm công</li>
                     </ol>
                 </div>
             </div>
@@ -34,11 +35,8 @@
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
-                                                <th>Mã vị trí</th>
-                                                <th>Tên vị trí</th>
-                                                <th>Phòng ban</th>
-                                                <th>Quản lý trực tiếp</th>
-                                                <th>Chức danh</th>
+                                                <th>Mã loại</th>
+                                                <th>Tên loại chấm công</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
@@ -46,11 +44,7 @@
                                             <tr>
                                                 <td>1</td>
                                                 <td>VT1</td>
-                                                <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
                                                 <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
-
                                                 <td>
                                                     <a href="" class="btn btn-primary mr-3"
                                                         style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
@@ -63,9 +57,6 @@
                                                 <td>1</td>
                                                 <td>VT1</td>
                                                 <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
                                                 <td>
                                                     <a href="" class="btn btn-primary mr-3"
                                                         style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
@@ -89,49 +80,22 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header border-bottom-0 bg-light">
-                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới phòng ban</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới loại chấm công</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <form>
-
                         <div class="modal-body">
-                            <h4>Thông tin chung</h4>
                             <div class="form-group">
-                                <label for="email1">Tên vị trí công việc</label>
+                                <label for="email1">Tên loại chấm công</label>
                                 <input type="email" class="form-control" id="email1" aria-describedby="emailHelp"
-                                    placeholder="Tên vị trí">
+                                    placeholder="Tên chức danh">
                             </div>
                             <div class="form-group">
-                                <label for="exampleFormControlSelect1">Quản lý</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Chức danh</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Phòng ban</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
+                                <label for="email1">Mã loại chấm công</label>
+                                <input type="email" class="form-control" id="email1" aria-describedby="emailHelp"
+                                    placeholder="Mã chức danh">
                             </div>
                         </div>
                         <div class="modal-footer border-top-0 d-flex bg-light justify-content-end">
@@ -149,7 +113,15 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable({
+                "language": {
+                    "lengthMenu": "Hiện _MENU_ bản ghi trên trang",
+                    "zeroRecords": "Không có bản ghi nào",
+                    "info": "Hiện trang _PAGE_ trong tổng số _PAGES_ trang",
+                    "infoEmpty": "Không có bản ghi nào",
+                    "infoFiltered": "(lọc từ _MAX_ bản ghi)"
+                }
+            });
         });
     </script>
 @endsection

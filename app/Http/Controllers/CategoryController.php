@@ -21,6 +21,4 @@ class CategoryController extends Controller
     public function loaihopdong(){
         return view('admin.categories.loaihopdong.index');
     }
-
-
 }

@@ -124,7 +124,15 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable({
+                "language": {
+                    "lengthMenu": "Hiện _MENU_ bản ghi trên trang",
+                    "zeroRecords": "Không có bản ghi nào",
+                    "info": "Hiện trang _PAGE_ trong tổng số _PAGES_ trang",
+                    "infoEmpty": "Không có bản ghi nào",
+                    "infoFiltered": "(lọc từ _MAX_ bản ghi)"
+                }
+            });
         });
     </script>
 @endsection
