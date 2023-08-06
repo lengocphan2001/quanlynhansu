@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PositionController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,10 +19,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('admin.index');
-});
+})->name('dashboard');
 
 Route::prefix('organization')->name('organization.')->group(function () {
-    Route::resource('departments', DepartmentController::class);
+    Route::resource('departments', DepartmentController::class)->except('destroy');
+    Route::post('departments/delete', [DepartmentController::class, 'destroy'])->name('departments.destroy');
     Route::resource('positions', PositionController::class);
     Route::prefix('categories')->name('categories.')->group(function(){
         Route::get('chucdanh', [CategoryController::class, 'chucdanh'])->name('chucdanh');
@@ -29,6 +31,8 @@ Route::prefix('organization')->name('organization.')->group(function () {
         Route::get('loaihopdong', [CategoryController::class, 'loaihopdong'])->name('loaihopdong');
         Route::get('loaichamcong', [CategoryController::class, 'loaichamcong'])->name('loaichamcong');
     });
+    
 });
+Route::resource('employees', EmployeeController::class);
 
 

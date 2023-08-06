@@ -24,8 +24,8 @@
                     <div class="card">
                         <div class="card-header border-0">
                             <div class="d-flex justify-content-between">
-                                <button class="btn btn-success" data-toggle="modal" data-target="#form" type="button"><i
-                                        class="fa fa-plus mr-1"></i> Thêm mới </button>
+                                <a class="btn btn-success"  href="{{ route('employees.create') }}"><i
+                                        class="fa fa-plus mr-1"></i>Thêm mới</a>
                             </div>
                         </div>
                         <div class="card-body">

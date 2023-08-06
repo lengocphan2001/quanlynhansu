@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DepartmentRequest;
 use App\Models\Department;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -12,7 +14,9 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        return view('admin.departments.index');
+        $departments = Department::all();
+        $managers = Employee::all();
+        return view('admin.departments.index')->with(['departments' => $departments, 'managers' => $managers]);
     }
 
     /**
@@ -26,9 +30,20 @@ class DepartmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DepartmentRequest $request)
     {
-        //
+        $data = $request->all();
+        
+        Department::create([
+            'name' => $data['name'],
+            'parent_id' => $data['parent_id'],
+            'manager_id' => $data['manager_id'],
+            'status' => $request->has('isDelete') ? 0 : 1
+        ]);
+
+        toastr()->success('Thành công', 'Thêm phòng ban thành công');
+        
+        return redirect()->route('organization.departments.index');
     }
 
     /**
@@ -44,7 +59,9 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        //
+        $departments = Department::all();
+        $managers = Employee::all();
+        return view('admin.departments.edit')->with(['department' => $department, 'departments' => $departments, "managers" => $managers]);
     }
 
     /**
@@ -52,14 +69,31 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, Department $department)
     {
-        //
+        $data = $request->all();
+        $department->update([
+            'name' => $data['name'],
+            'parent_id' => $data['parent_id'],
+            'manager_id' => $data['manager_id'],
+            'status' => $request->has('isDelete') ? 0 : 1
+        ]);
+
+        toastr()->success('Thành công', 'Sửa thông tin phòng ban thành công');
+
+        return redirect()->route('organization.departments.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Department $department)
-    {
-        //
+    public function destroy(Request $request)
+    {   
+        $department = Department::where('id', $request->get('id'))->first();
+
+        $department->delete();
+
+        toastr()->success('Xóa phòng ban thành công', 'Thành công');
+
+        return redirect()->route('organization.departments.index');
+
     }
 }
