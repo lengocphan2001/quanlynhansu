@@ -27,6 +27,8 @@ Route::prefix('organization')->name('organization.')->group(function () {
     Route::resource('positions', PositionController::class);
     Route::prefix('categories')->name('categories.')->group(function(){
         Route::get('chucdanh', [CategoryController::class, 'chucdanh'])->name('chucdanh');
+        Route::post('chucdanh/them', [CategoryController::class, 'themChucDanh'])->name('chucdanh.themmoi');
+        Route::post('chucdanh/xoa', [CategoryController::class, 'destroy'])->name('chucdanh.xoa');
         Route::get('calamviec', [CategoryController::class, 'calamviec'])->name('calamviec');
         Route::get('loaihopdong', [CategoryController::class, 'loaihopdong'])->name('loaihopdong');
         Route::get('loaichamcong', [CategoryController::class, 'loaichamcong'])->name('loaichamcong');

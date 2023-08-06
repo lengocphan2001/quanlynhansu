@@ -33,17 +33,17 @@
                                                 <div class="nhansuThemMoi-form-left-box">
                                                     <div class="nhansuThemMoi-form-left-group">
                                                         <label for="">Mã nhân viên: <span>*</span></label>
-                                                        <input type="text">
+                                                        <input type="text" name="identity">
                                                     </div>
                                                     <div class="nhansuThemMoi-form-left-group">
                                                         <label for="">Họ và tên: <span>*</span></label>
-                                                        <input type="text">
+                                                        <input type="text" name="fullname">
                                                     </div>
                                                 </div>
                                                 <div class="nhansuThemMoi-form-left-box">
                                                     <div class="nhansuThemMoi-form-left-group">
                                                         <label for="">Tên thường gọi:</label>
-                                                        <input type="text">
+                                                        <input type="text" name="common_name">
                                                     </div>
                                                     <div class="nhansuThemMoi-form-left-group">
                                                         <label for="">Ngày sinh: <span>*</span></label>
@@ -77,25 +77,7 @@
                                                 <input type="file">
                                             </div>
                                         </div>
-                                        <div class="nhansuThemMoi-form-box">
-                                            <div class="nhansuThemMoi-form-box-group">
-                                                <label for="">CMTND: <span>*</span></label>
-                                                <input type="text">
-                                            </div>
-                                            <div class="nhansuThemMoi-form-box-group">
-                                                <label for="">Nơi cấp:</label>
-                                                <select name="" id="">
-                                                    <option value="" selected></option>
-                                                    <option value="">Đã kết hôn</option>
-                                                    <option value="">Độc thân</option>
-                                                    <option value="">Đã ly hôn</option>
-                                                </select>
-                                            </div>
-                                            <div class="nhansuThemMoi-form-box-group">
-                                                <label for="">Ngày cấp:</label>
-                                                <input type="date">
-                                            </div>
-                                        </div>
+
                                         <div class="nhansuThemMoi-form-box">
                                             <div class="nhansuThemMoi-form-box-group">
                                                 <label for="">CCCD: <span>*</span></label>
@@ -104,7 +86,6 @@
                                             <div class="nhansuThemMoi-form-box-group">
                                                 <label for="">Nơi cấp CCCD:</label>
                                                 <select name="" id="">
-                                                    <option value="" selected></option>
                                                     <option value="">Đã kết hôn</option>
                                                     <option value="">Độc thân</option>
                                                     <option value="">Đã ly hôn</option>

@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Department;
-use App\Models\Employee;
-use App\Models\Position;
 use App\Models\Title;
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class TitleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.employees.index');
+        //
     }
 
     /**
@@ -23,10 +20,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $departments = Department::all();
-        $postions = Position::all();
-        $titles = Title::all();
-        return view('admin.employees.create')->with(['departments' => $departments, 'postions' => $postions, 'titles' => $titles]);
+        //
     }
 
     /**
@@ -40,7 +34,7 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Employee $employee)
+    public function show(Title $title)
     {
         //
     }
@@ -48,7 +42,7 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Employee $employee)
+    public function edit(Title $title)
     {
         //
     }
@@ -56,7 +50,7 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request, Title $title)
     {
         //
     }
@@ -64,7 +58,7 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Employee $employee)
+    public function destroy(Title $title)
     {
         //
     }
