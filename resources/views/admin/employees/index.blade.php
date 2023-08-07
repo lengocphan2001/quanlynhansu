@@ -5,13 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Ca làm việc</h1>
+                    <h1 class="m-0">Danh sách nhân viên</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Tổ chức</a></li>
-                        <li class="breadcrumb-item"><a href="#">Danh mục</a></li>
-                        <li class="breadcrumb-item active">Ca làm việc</li>
+                        <li class="breadcrumb-item"><a href="#">Nhân viên</a></li>
+                        <li class="breadcrumb-item active">Danh sách</li>
                     </ol>
                 </div>
             </div>
@@ -24,7 +23,7 @@
                     <div class="card">
                         <div class="card-header border-0">
                             <div class="d-flex justify-content-between">
-                                <a class="btn btn-success"  href="{{ route('employees.create') }}"><i
+                                <a class="btn btn-success" href="{{ route('employees.create') }}"><i
                                         class="fa fa-plus mr-1"></i>Thêm mới</a>
                             </div>
                         </div>
@@ -34,47 +33,40 @@
                                     <table id="myTable" class="stripe cell-border hover">
                                         <thead>
                                             <tr>
-                                                <th>STT</th>
-                                                <th>Mã ca</th>
-                                                <th>Tên ca</th>
-                                                <th>Số phút làm việc tiêu chuẩn</th>
-                                                <th>Giờ đến</th>
-                                                <th>Giờ về</th>
+                                                <th>Mã nhân viên</th>
+                                                <th>Họ và tên</th>
+                                                <th>Địa chỉ thường trú</th>
+                                                <th>Số điện thoại</th>
+                                                <th>Phòng ban</th>
+                                                <th>Trạng thái</th>
+                                                <th>Chức danh</th>
+                                                <th>Vị trí làm việc</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>VT1</td>
-                                                <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
+                                            @foreach ($employees as $item)
+                                                <tr>
+                                                    <td>{{ $item->identity }}</td>
+                                                    <td>{{ $item->fullname }}</td>
+                                                    <td>{{ $item->current_address }}</td>
+                                                    <td>{{ $item->phone }}</td>
+                                                    <td>{{ $item->department }}</td>
+                                                    <td>{{ $item->working_status }}</td>
+                                                    <td>{{ $item->title }}</td>
+                                                    <td>{{ $item->position }}</td>
 
-                                                <td>
-                                                    <a href="" class="btn btn-primary mr-3"
-                                                        style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger delete">
-                                                        <i class="bx bx-trash"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>VT1</td>
-                                                <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
-                                                <td>
-                                                    <a href="" class="btn btn-primary mr-3"
-                                                        style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger delete">
-                                                        <i class="bx bx-trash"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                                    <td>
+                                                        <a href="{{ route('employees.show', ['employee' => $item]) }}"
+                                                            class="btn btn-primary mr-3" style="margin-right: 10px;"><i
+                                                                class="bx bx-pencil"></i></a>
+                                                        <a href="javascript:void(0)" class="btn btn-danger delete">
+                                                            <i class="bx bx-trash"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -139,12 +131,19 @@
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable({
-                "language": {
+                language: {
                     "lengthMenu": "Hiện _MENU_ bản ghi trên trang",
                     "zeroRecords": "Không có bản ghi nào",
                     "info": "Hiện trang _PAGE_ trong tổng số _PAGES_ trang",
                     "infoEmpty": "Không có bản ghi nào",
-                    "infoFiltered": "(lọc từ _MAX_ bản ghi)"
+                    "infoFiltered": "(lọc từ _MAX_ bản ghi)",
+
+                },
+                responsive: {
+                    details: {
+                        type: 'column',
+                        target: -1
+                    }
                 }
             });
             $('#timepicker_start').timepicker({

@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Position;
 use App\Models\Title;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -15,7 +16,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('admin.employees.index');
+        $employees = Employee::all();
+        return view('admin.employees.index')->with(['employees' => $employees]);
     }
 
     /**
@@ -34,7 +36,16 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        switch ($request->input('action')) {
+            case 'save':
+                $data = $request->except(['_token', 'action']);
+                Employee::create($data);
+                toastr()->success('Thêm nhân viên thành công', 'Thành công');
+                return redirect(route('employees.index'));
+
+            case 'save-add':
+                break;
+        }
     }
 
     /**
@@ -42,7 +53,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        return view('admin.employees.detail.includes.layout')->with(['employee' => $employee]);
     }
 
     /**
@@ -50,7 +61,7 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        //
+        
     }
 
     /**

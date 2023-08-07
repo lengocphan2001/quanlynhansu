@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\SalaryProcessController;
+use App\Http\Controllers\WorkingProcessController;
+use App\Models\Contract;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('admin.index');
+    return view('admin.employees.detail.contract');
 })->name('dashboard');
 
 Route::prefix('organization')->name('organization.')->group(function () {
@@ -33,8 +37,14 @@ Route::prefix('organization')->name('organization.')->group(function () {
         Route::get('loaihopdong', [CategoryController::class, 'loaihopdong'])->name('loaihopdong');
         Route::get('loaichamcong', [CategoryController::class, 'loaichamcong'])->name('loaichamcong');
     });
-    
 });
 Route::resource('employees', EmployeeController::class);
+// Route::resource('employees/contracts', ContractController::class);
+
+Route::get('employees/contracts/{employee}', [ContractController::class, 'index'])->name('employees.contract');
+Route::resource('employees/salary-process', SalaryProcessController::class);
+Route::resource('employees/working-process', WorkingProcessController::class);
+
+
 
 

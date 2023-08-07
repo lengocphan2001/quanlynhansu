@@ -25,6 +25,7 @@ class Employee extends Model
         'place_of_birth',
         'phone',
         'email',
+        'password',
         'decision_number',
         'decision_date',
         'position',
