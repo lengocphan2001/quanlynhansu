@@ -41,7 +41,7 @@ Route::prefix('organization')->name('organization.')->group(function () {
 Route::resource('employees', EmployeeController::class);
 // Route::resource('employees/contracts', ContractController::class);
 
-Route::get('employees/contracts/{employee}', [ContractController::class, 'index'])->name('employees.contract');
+Route::get('employees/contracts/{employee}', [ContractController::class, 'show'])->name('employees.contract');
 Route::resource('employees/salary-process', SalaryProcessController::class);
 Route::resource('employees/working-process', WorkingProcessController::class);
 

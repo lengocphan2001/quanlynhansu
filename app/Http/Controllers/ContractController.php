@@ -11,11 +11,9 @@ class ContractController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Employee $employee)
+    public function index()
     {
-        $contracts = Contract::where('employee_id',  $employee->identity)->get();
-
-        return view('admin.employees.detail.contract')->with(['contracts' => $contracts]);
+        
     }
 
     /**
@@ -37,9 +35,10 @@ class ContractController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Contract $contract)
+    public function show(Employee $employee)
     {
-        //
+        $contracts = Contract::where('employee_id',  $employee->identity)->get();
+        return view('admin.employees.detail.contract')->with(['contracts' => $contracts]);
     }
 
     /**

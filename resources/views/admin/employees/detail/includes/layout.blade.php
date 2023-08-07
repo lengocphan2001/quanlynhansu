@@ -69,7 +69,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('employees.contract', ['id', $employee ]) }}" class="nav-link">
+                            <a href="{{ route('employees.contract', ['employee', $employee ]) }}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     02. Hợp đồng

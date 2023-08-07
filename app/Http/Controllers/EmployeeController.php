@@ -42,7 +42,6 @@ class EmployeeController extends Controller
                 Employee::create($data);
                 toastr()->success('Thêm nhân viên thành công', 'Thành công');
                 return redirect(route('employees.index'));
-
             case 'save-add':
                 break;
         }
