@@ -19,7 +19,6 @@
 </head>
 
 <body class="hold-transition sidebar-mini">
-    {{ $employee }}
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -61,7 +60,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="{{ route('dashboard') }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
+                            <a href="" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     01. Thông tin tổng quan
@@ -69,8 +68,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('employees.contract', ['employee', $employee ]) }}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                            <a href="" class="nav-link">
+                                <i class="nav-icon fas fa-photo"></i>
                                 <p>
                                     02. Hợp đồng
                                 </p>
@@ -79,7 +78,7 @@
 
                         <li class="nav-item">
                             <a href="{{ route('employees.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fa fa-address-book"></i>
                                 <p>
                                     03. Quá trình làm việc
                                 </p>
@@ -87,7 +86,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('employees.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fa fa-archive"></i>
                                 <p>
                                     04. Diễn biến lương
                                 </p>
