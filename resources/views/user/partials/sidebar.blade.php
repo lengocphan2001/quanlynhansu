@@ -1,7 +1,7 @@
 <aside
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-1   bg-gradient-dark"
     id="sidenav-main">
-    <div class="sidenav-header d-flex flex-column" style="height: 25rem">
+    <div class="sidenav-header d-flex flex-column" style="height: 27rem">
         <div>
             <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
@@ -12,7 +12,7 @@
             </a>
         </div>
         <div class="ps-3 pe-3">
-            <img class="rounded-circle" alt="avatar1" src="https://mdbcdn.b-cdn.net/img/new/avatars/9.webp" />
+            <img class="rounded-circle" style="height: 210px" alt="avatar1" src="https://mdbcdn.b-cdn.net/img/new/avatars/9.webp" />
         </div>
         
 

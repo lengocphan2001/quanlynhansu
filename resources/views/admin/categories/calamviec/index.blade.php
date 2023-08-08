@@ -37,44 +37,32 @@
                                                 <th>STT</th>
                                                 <th>Mã ca</th>
                                                 <th>Tên ca</th>
-                                                <th>Số phút làm việc tiêu chuẩn</th>
+                                               
                                                 <th>Giờ đến</th>
                                                 <th>Giờ về</th>
+                                                <th>Số phút làm việc tiêu chuẩn</th>
                                                 <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>VT1</td>
-                                                <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
-
-                                                <td>
-                                                    <a href="" class="btn btn-primary mr-3"
-                                                        style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger delete">
-                                                        <i class="bx bx-trash"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>VT1</td>
-                                                <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
-                                                <td>
-                                                    <a href="" class="btn btn-primary mr-3"
-                                                        style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger delete">
-                                                        <i class="bx bx-trash"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            @foreach ($titles as $item)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $item->identity }}</td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>{{ $item->start }}</td>
+                                                    <td>{{ $item->end }}</td>
+                                                    <td>{{ $item->minutes }}</td>
+                                                    <td>
+                                                        <a href="" class="btn btn-primary mr-3"
+                                                            style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
+                                                        <button class="btn btn-danger deleteConfirm"
+                                                            value="{{ $item->id }}" type="button">
+                                                            <i class="bx bx-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -83,6 +71,31 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+        <div class="modal fade" id="deleteDepartment" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="deleteCategory" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <form action="{{ route('organization.categories.calamviec.xoa') }}" method="POST">
+                        @csrf
+                        <input type="text" name="id" value="" id="id" hidden>
+                        <div class="modal-header">
+                            <h5 class="modal-title">Xóa ca làm việc</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa ca làm việc này <span id="modal-category_name"></span>?
+                            <input type="hidden" id="category" name="category_id">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn bg-white" data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-danger" id="modal-confirm_delete">Xóa</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -95,38 +108,55 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form>
-
+                    <form action="{{ route('organization.categories.calamviec.themmoi') }}" method="POST">
+                        @csrf
                         <div class="modal-body">
                             <h4>Thông tin chung</h4>
                             <div class="form-group">
                                 <label for="email1">Tên ca</label>
-                                <input type="email" class="form-control" id="email1" aria-describedby="emailHelp"
-                                    placeholder="Tên ca">
+                                <input type="text" class="form-control" id="email1" aria-describedby="emailHelp"
+                                    name="name" placeholder="Tên ca">
+                                @if ($errors->has('name'))
+                                    <div class='text-danger'>
+                                        * {{ $errors->first('name') }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label for="email1">Mã ca</label>
-                                <input type="email" class="form-control" id="email1" aria-describedby="emailHelp"
-                                    placeholder="Mã ca">
+                                <input type="text" class="form-control" id="email1" aria-describedby="emailHelp"
+                                    name="identity" placeholder="Mã ca">
+                                @if ($errors->has('identity'))
+                                    <div class='text-danger'>
+                                        * {{ $errors->first('identity') }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label for="email1">Số phút làm việc tiêu chuẩn</label>
-                                <input type="email" class="form-control" id="email1" aria-describedby="emailHelp"
-                                    placeholder="Số phút làm việc">
+                                <input type="number" class="form-control" id="email1" aria-describedby="emailHelp"
+                                    name="minutes" placeholder="Số phút làm việc">
+                                @if ($errors->has('minutes'))
+                                    <div class='text-danger'>
+                                        * {{ $errors->first('minutes') }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label for="email1">Giờ đến</label>
-                                <input id="timepicker_start" class="form-control" />
+                                <input id="timepicker_start" class="form-control" name="start" />
                             </div>
                             <div class="form-group">
                                 <label for="email1">Giờ về</label>
-                                <input id="timepicker_end" class="form-control" />
+                                <input id="timepicker_end" class="form-control" name="end" />
                             </div>
                         </div>
                         <div class="modal-footer border-top-0 d-flex bg-light justify-content-end">
                             <div>
-                                <button class="btn btn-danger"><i class="fa fa-close mr-1"></i> Đóng </button>
-                                <button class="btn btn-success"><i class="fa fa-check mr-1"></i> Lưu thông tin </button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal"><i
+                                        class="fa fa-close mr-1"></i> Đóng </button>
+                                <button class="btn btn-success" type="submit"><i class="fa fa-check mr-1"></i> Lưu thông
+                                    tin </button>
                             </div>
                         </div>
                     </form>
@@ -147,11 +177,22 @@
                     "infoFiltered": "(lọc từ _MAX_ bản ghi)"
                 }
             });
+            $(document).ready(function() {
+                $('#form').modal({
+                    'show': {{ count($errors) > 0 ? 'true' : 'false' }}
+                });
+            });
             $('#timepicker_start').timepicker({
                 zindex: 9999999
             });
             $('#timepicker_end').timepicker({
                 zindex: 9999999
+            });
+            $('.deleteConfirm').click(function(e) {
+                e.preventDefault();
+                var id = $(this).val();
+                $('#id').val(id);
+                $('#deleteDepartment').modal('show');
             });
         });
     </script>

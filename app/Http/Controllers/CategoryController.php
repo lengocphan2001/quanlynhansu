@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContractTypeRequest;
+use App\Http\Requests\ShiftRequest;
+use App\Http\Requests\TimeKeepingRequest;
 use App\Http\Requests\TitleRequest;
+use App\Models\ContractType;
+use App\Models\Shift;
+use App\Models\TimeKeeping;
 use App\Models\Title;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Type\Time;
 
 class CategoryController extends Controller
 {
@@ -35,14 +42,66 @@ class CategoryController extends Controller
     }
 
     public function calamviec(){
-        return view('admin.categories.calamviec.index');
+        $titles = Shift::all();
+        return view('admin.categories.calamviec.index')->with(['titles' => $titles]);
+    }
+
+    public function themCaLamViec(ShiftRequest $shiftRequest){
+        $data = $shiftRequest->except(['_token']);
+        Shift::create($data);
+
+        toastr()->success('Thêm loại chấm công thành công', 'Thành công');
+        return back();
+    }
+
+    public function destroyCLV(Request $request){
+        $title = Shift::where('id', $request->get('id'))->first();
+        $title->delete();
+        toastr()->success('Xóa ca làm việc thành công', 'Thành công');
+        return back();
     }
 
     public function loaichamcong(){
-        return view('admin.categories.loaichamcong.index');
+        $titles = TimeKeeping::all();
+        return view('admin.categories.loaichamcong.index')->with(['titles' => $titles]);
+    }
+    public function themLoaiChamCong(TimeKeepingRequest $shiftRequest){
+        $data = $shiftRequest->except(['_token']);
+        TimeKeeping::create($data);
+
+        toastr()->success('Thêm loại chấm công thành công', 'Thành công');
+        return back();
+    }
+
+    public function destroyLCC(Request $request){
+        $title = TimeKeeping::where('id', $request->get('id'))->first();
+        $title->delete();
+        toastr()->success('Xóa loại chấm công thành công', 'Thành công');
+        return back();
     }
 
     public function loaihopdong(){
-        return view('admin.categories.loaihopdong.index');
+        $contract_types = ContractType::all();
+        return view('admin.categories.loaihopdong.index')->with(['contract_types' => $contract_types]);
+    }
+
+    public function themLoaiHopDong(ContractTypeRequest $contractTypeRequest){
+        $data = $contractTypeRequest->all();
+
+        ContractType::create([
+            'name' => $data['name'],
+            'identity' => $data['identity'],
+            'english_name' => $data['english_name']
+        ]);
+
+        toastr()->success('Thêm loại hợp đồng thành công', 'Thành công');
+        return back();
+    }
+
+    public function destroyLHD(Request $request){
+        $title = ContractType::where('id', $request->get('id'))->first();
+        $title->delete();
+        toastr()->success('Xóa loại hợp đồng thành công', 'Thành công');
+        return back();
     }
 }

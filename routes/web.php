@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('user.profile.nghi');
+    return view('user.profile.ot');
 })->name('dashboard');
 
 Route::prefix('organization')->name('organization.')->group(function () {
@@ -34,8 +34,14 @@ Route::prefix('organization')->name('organization.')->group(function () {
         Route::post('chucdanh/them', [CategoryController::class, 'themChucDanh'])->name('chucdanh.themmoi');
         Route::post('chucdanh/xoa', [CategoryController::class, 'destroy'])->name('chucdanh.xoa');
         Route::get('calamviec', [CategoryController::class, 'calamviec'])->name('calamviec');
+        Route::post('calamviec/them', [CategoryController::class, 'themCaLamViec'])->name('calamviec.themmoi');
+        Route::post('calamviec/xoa', [CategoryController::class, 'destroyCLV'])->name('calamviec.xoa');
         Route::get('loaihopdong', [CategoryController::class, 'loaihopdong'])->name('loaihopdong');
+        Route::post('loaihopdong/them', [CategoryController::class, 'themLoaiHopDong'])->name('loaihopdong.themmoi');
+        Route::post('loaihopdong/xoa', [CategoryController::class, 'destroyLHD'])->name('loaihopdong.xoa');
         Route::get('loaichamcong', [CategoryController::class, 'loaichamcong'])->name('loaichamcong');
+        Route::post('loaichamcong/them', [CategoryController::class, 'themLoaiChamCong'])->name('loaichamcong.themmoi');
+        Route::post('loaichamcong/xoa', [CategoryController::class, 'destroyLCC'])->name('loaichamcong.xoa');
     });
 });
 Route::resource('employees', EmployeeController::class);
