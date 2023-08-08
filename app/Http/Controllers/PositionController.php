@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PosistionRequest;
+use App\Models\Department;
 use App\Models\Position;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,9 @@ class PositionController extends Controller
      */
     public function index()
     {
-        return view('admin.positions.index');
+        $positions = Position::all();
+        $departments = Department::all();
+        return view('admin.positions.index')->with(['positions' => $positions, 'departments' => $departments]);
     }
 
     /**
@@ -20,15 +24,19 @@ class PositionController extends Controller
      */
     public function create()
     {
-        //
+    
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PosistionRequest $request)
     {
-        //
+        $data = $request->except(['_token']);
+        Position::create($data);
+        toastr()->success('Thêm vị trí công việc thành công', 'Thành công');
+
+        return back();
     }
 
     /**
@@ -58,8 +66,14 @@ class PositionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Position $position)
+    public function destroy(Request $request)
     {
-        //
+        $position = Position::where('id', $request->get('id'))->first();
+
+        $position->delete();
+
+        toastr()->success('Xóa vị trí công việc thành công', 'Thành công');
+
+        return redirect()->route('organization.positions.index');
     }
 }

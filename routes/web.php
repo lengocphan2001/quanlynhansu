@@ -7,7 +7,6 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\SalaryProcessController;
 use App\Http\Controllers\WorkingProcessController;
-use App\Models\Contract;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +26,9 @@ Route::get('/', function () {
 
 Route::prefix('organization')->name('organization.')->group(function () {
     Route::resource('departments', DepartmentController::class)->except('destroy');
+    Route::resource('positions', PositionController::class)->except('destroy');
     Route::post('departments/delete', [DepartmentController::class, 'destroy'])->name('departments.destroy');
+    Route::post('positions/delete', [PositionController::class, 'destroy'])->name('positions.destroy');
     Route::resource('positions', PositionController::class);
     Route::prefix('categories')->name('categories.')->group(function(){
         Route::get('chucdanh', [CategoryController::class, 'chucdanh'])->name('chucdanh');

@@ -43,37 +43,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>VT1</td>
-                                                <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
+                                            @foreach ($positions as $item)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>VT{{ $item->id }}</td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>{{ $item->department }}</td>
+                                                    <td>{{ $item->manager }}</td>
+                                                    <td>{{ $item->title }}</td>
 
-                                                <td>
-                                                    <a href="" class="btn btn-primary mr-3"
-                                                        style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger delete">
-                                                        <i class="bx bx-trash"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>VT1</td>
-                                                <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
-                                                <td>
-                                                    <a href="" class="btn btn-primary mr-3"
-                                                        style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger delete">
-                                                        <i class="bx bx-trash"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                                    <td>
+                                                        <a href="" class="btn btn-primary mr-3"
+                                                            style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
+                                                            <button class="btn btn-danger deleteConfirm"
+                                                            value="{{ $item->id }}" type="button">
+                                                            <i class="bx bx-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -84,29 +72,54 @@
 
             </div>
         </div>
+        <div class="modal fade" id="deleteDepartment" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="deleteCategory" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <form action="{{ route('organization.positions.destroy') }}" method="POST">
+                        @csrf
+                        <input type="text" name="id" value="" id="id" hidden>
+                        <div class="modal-header">
+                            <h5 class="modal-title">Xóa vị trí công việc</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa vị trí này <span id="modal-category_name"></span>?
+                            <input type="hidden" id="category" name="category_id">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn bg-white" data-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-danger" id="modal-confirm_delete">Xóa</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header border-bottom-0 bg-light">
-                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới phòng ban</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới vị trí công việc</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form>
-
+                    <form action="{{ route('organization.positions.store')}}" method="POST">
+                        @csrf
                         <div class="modal-body">
                             <h4>Thông tin chung</h4>
                             <div class="form-group">
                                 <label for="email1">Tên vị trí công việc</label>
                                 <input type="email" class="form-control" id="email1" aria-describedby="emailHelp"
-                                    placeholder="Tên vị trí">
+                                    name="name" placeholder="Tên vị trí">
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Quản lý</label>
                                 <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>1</option>
+                                    <option value="Chưa có">Chưa có</option>
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
@@ -116,7 +129,7 @@
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Chức danh</label>
                                 <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>1</option>
+                                    <option value="Chưa có">Chưa có</option>
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
@@ -126,7 +139,7 @@
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Phòng ban</label>
                                 <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>1</option>
+                                    <option value="Chưa có">Chưa có</option>
                                     <option>2</option>
                                     <option>3</option>
                                     <option>4</option>
@@ -136,8 +149,10 @@
                         </div>
                         <div class="modal-footer border-top-0 d-flex bg-light justify-content-end">
                             <div>
-                                <button class="btn btn-danger"><i class="fa fa-close mr-1"></i> Đóng </button>
-                                <button class="btn btn-success"><i class="fa fa-check mr-1"></i> Lưu thông tin </button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal"><i
+                                        class="fa fa-close mr-1"></i> Đóng </button>
+                                <button class="btn btn-success" type="submit"><i class="fa fa-check mr-1"></i> Lưu thông
+                                    tin </button>
                             </div>
                         </div>
                     </form>
@@ -147,8 +162,11 @@
     </div>
 @endsection
 @section('script')
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
+            jQuery.noConflict();
             $('#myTable').DataTable({
                 "language": {
                     "lengthMenu": "Hiện _MENU_ bản ghi trên trang",
@@ -157,6 +175,18 @@
                     "infoEmpty": "Không có bản ghi nào",
                     "infoFiltered": "(lọc từ _MAX_ bản ghi)"
                 }
+            });
+            $(document).ready(function() {
+                $('#form').modal({
+                    'show': {{ count($errors) > 0 ? 'true' : 'false' }}
+                });
+            });
+
+            $('.deleteConfirm').click(function(e) {
+                e.preventDefault();
+                var id = $(this).val();
+                $('#id').val(id);
+                $('#deleteDepartment').modal('show');
             });
         });
     </script>
