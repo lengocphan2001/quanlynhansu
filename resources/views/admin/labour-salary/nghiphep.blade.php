@@ -8,12 +8,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Tổng hợp công</h1>
+                    <h1 class="m-0">Danh sách nghỉ phép</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Công - Lương</a></li>
-                        <li class="breadcrumb-item active">Dữ liệu chấm công</li>
+                        <li class="breadcrumb-item active">Danh sách nghỉ phép</li>
                     </ol>
                 </div>
             </div>
@@ -26,20 +26,20 @@
                     <div class="card">
                         <div class="card-header border-0">
                             <div class="d-flex" style="gap: 20xp">
+                                <input type="date" class="mr-2">
+                                <input type="date" class="mr-2">
                                 <select class="mr-2 w-25" id="exampleFormControlSelect1">
-                                    <option value="0">CEO Office</option>
-                                    <option value="1">CEO Office</option>
+                                    <option value="0">Trạng thái : Đã duyệt</option>
+                                    <option value="1">Trạng thái : Chưa duyệt</option>
                                 </select>
-                                <input type="date" class="mr-2">
-                                <input type="date" class="mr-2">
                                 <select class="mr-2 w-25" id="exampleFormControlSelect1">
                                     <option value="0">Chọn nhân viên</option>
                                     <option value="1">CEO Office</option>
                                 </select>
-                                <button class="btn btn-success mr-2" data-toggle="modal" data-target="#form" type="button"><i
+                                <button class="btn btn-success mr-2" type="button"><i
                                         class="fa fa-search"></i> Tìm kiếm </button>
                                         <button class="btn btn-success" data-toggle="modal" data-target="#form" type="button"><i
-                                        class="fa fa-file-excel-o"></i></button>
+                                        class="fa fa-plus"></i></button>
                             
                             </div>
                         </div>
@@ -49,19 +49,32 @@
                                     <table id="myTable" class="stripe cell-border hover">
                                         <thead>
                                             <tr>
-                                                <th>Mã chấm công</th>
                                                 <th>Họ và tên</th>
-                                                <th>Ngày chấm công</th>
-                                                <th>Giờ chấm công</th>
+                                                <th>Trạng thái</th>
+                                                <th>Phòng ban</th>
+                                                <th>Ngày lập</th>
+                                                <th>Hình thức nghỉ</th>
+                                                <th>Ngày bắt đầu</th>
+                                                <th>Ngày kết thúc</th>
+                                                <th>Số ngày nghỉ</th>
+                                                <th>Ngày nhập</th>
+                                                <th>Người nhập</th>
+                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>CC1</td>
-
+                                                <td><span class="badge badge-success">Lê Ngọc Phan</span></td>
+                                                <td>28-02-2002</td>
+                                                <td>12:20</td>
+                                                <td>CC1</td>
                                                 <td>Lê Ngọc Phan</td>
                                                 <td>28-02-2002</td>
                                                 <td>12:20</td>
+                                                <td>CC1</td>
+                                                <td>Lê Ngọc Phan</td>
+                                                <td>28-02-2002</td>
                                             </tr>
                                             {{-- @foreach ($departments as $item)
                                                 <tr>
@@ -101,37 +114,12 @@
 
             </div>
         </div>
-        <div class="modal fade" id="deleteDepartment" data-backdrop="static" tabindex="-1" role="dialog"
-            aria-labelledby="deleteCategory" aria-hidden="true">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <form action="{{ route('organization.departments.destroy') }}" method="POST">
-                        @csrf
-                        <input type="text" name="id" value="" id="id" hidden>
-                        <div class="modal-header">
-                            <h5 class="modal-title">Xóa phòng ban</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Bạn có muốn xóa phòng ban này <span id="modal-category_name"></span>?
-                            <input type="hidden" id="category" name="category_id">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn bg-white" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-danger" id="modal-confirm_delete">Xóa</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
         <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header border-bottom-0 bg-light">
-                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới phòng ban</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới phép nghỉ</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -140,19 +128,19 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="password1">Tên phòng ban</label>
-                                <input type="text" class="form-control" id="password1" placeholder="Tên phòng ban"
-                                    name="name">
-                                @if ($errors->has('name'))
-                                    <div class='text-danger'>
-                                        * {{ $errors->first('name') }}
-                                    </div>
-                                @endif
+                                <label for="password1">Mã nhân viên</label>
+                                <select class="form-control" id="exampleFormControlSelect1" name="manager_id">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
                             </div>
 
 
                             <div class="form-group">
-                                <label for="email1">Phòng ban cha</label>
+                                <label for="email1">Phòng ban</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="parent_id">
                                     <option value="0">Phòng ban cha</option>
                                     {{-- @foreach ($departments as $item)
@@ -162,7 +150,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="password1">Quản lý</label>
+                                <label for="password1">Hình thức nghỉ</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="manager_id">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -171,13 +159,16 @@
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="modal-footer border-top-0 d-flex bg-light justify-content-between">
-                            <div class="custom-control custom-checkbox custom-control-inline">
-                                <input type="checkbox" class="custom-control-input" id="defaultInline2" name="isDelete">
-                                <label class="custom-control-label" for="defaultInline2">Đã
-                                    xóa/giải thể</label>
+                            <div class="form-group">
+                                <label for="password1">Ngày bắt đầu</label>
+                                <input type="datetime-local" class="form-control">
                             </div>
+                            <div class="form-group">
+                                <label for="password1">Ngày kết thúc</label>
+                                <input type="datetime-local" class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer border-top-0 d-flex bg-light justify-content-end">
                             <div>
                                 <button class="btn btn-danger" data-dismiss="modal" type="button"><i
                                         class="fa fa-close mr-1"></i> Đóng </button>
