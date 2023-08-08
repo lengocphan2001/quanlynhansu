@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('admin.labour-salary.nghiphep');
+    return view('user.profile.nghi');
 })->name('dashboard');
 
 Route::prefix('organization')->name('organization.')->group(function () {
