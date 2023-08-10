@@ -17,8 +17,8 @@
         
 
         <div class="ps-3 pe-3 mt-3 mb-3">
-            <a class="btn btn-success w-100" style="text-transform: none">Đăng ký OT</a>
-            <a class="btn btn-warning w-100" style="text-transform: none">Đăng ký nghỉ</a>
+            <a class="btn btn-success w-100" style="text-transform: none" href="{{ route('portal.ot') }}">Đăng ký OT</a>
+            <a class="btn btn-warning w-100" style="text-transform: none" href="{{ route('portal.nghi') }}">Đăng ký nghỉ</a>
         </div>
 
     </div>
@@ -27,7 +27,7 @@
         <ul class="navbar-nav">
 
             <li class="nav-item">
-                <a class="nav-link text-white active bg-gradient-primary" href="../pages/dashboard.html">
+                <a class="nav-link text-white {{ Request::is('portal/information') ? 'active bg-gradient-primary' : ''}}" href="{{ route('portal.infomation') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="../pages/tables.html">
+                <a class="nav-link text-white {{ Request::is('portal/nghi') ? 'active bg-gradient-primary' : ''}}" href="../pages/tables.html">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
@@ -43,7 +43,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white " href="../pages/billing.html">
+                <a class="nav-link text-white {{ Request::is('portal/ot') ? 'active bg-gradient-primary' : ''}}" href="../pages/billing.html">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>
                     </div>

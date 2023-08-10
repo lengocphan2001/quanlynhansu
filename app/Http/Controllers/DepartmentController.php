@@ -36,13 +36,13 @@ class DepartmentController extends Controller
         
         Department::create([
             'name' => $data['name'],
+            'identity' => $data['identity'],
             'parent_id' => $data['parent_id'],
-            'manager_id' => $data['manager_id'],
+            'manager_id' => $request->has('manager_id') ? $data['manager_id'] : null,
             'status' => $request->has('isDelete') ? 0 : 1
         ]);
-
         toastr()->success('Thành công', 'Thêm phòng ban thành công');
-        
+    
         return redirect()->route('organization.departments.index');
     }
 
@@ -61,6 +61,7 @@ class DepartmentController extends Controller
     {
         $departments = Department::all();
         $managers = Employee::all();
+
         return view('admin.departments.edit')->with(['department' => $department, 'departments' => $departments, "managers" => $managers]);
     }
 
@@ -72,11 +73,11 @@ class DepartmentController extends Controller
         $data = $request->all();
         $department->update([
             'name' => $data['name'],
+            'identity' => $data['identity'],
             'parent_id' => $data['parent_id'],
-            'manager_id' => $data['manager_id'],
+            'manager_id' => $request->has('manager_id') ? $data['manager_id'] : null,
             'status' => $request->has('isDelete') ? 0 : 1
         ]);
-
         toastr()->success('Thành công', 'Sửa thông tin phòng ban thành công');
 
         return redirect()->route('organization.departments.index');
@@ -88,9 +89,7 @@ class DepartmentController extends Controller
     public function destroy(Request $request)
     {   
         $department = Department::where('id', $request->get('id'))->first();
-
         $department->delete();
-
         toastr()->success('Xóa phòng ban thành công', 'Thành công');
 
         return redirect()->route('organization.departments.index');

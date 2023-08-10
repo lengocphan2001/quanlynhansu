@@ -38,7 +38,7 @@ class ContractController extends Controller
     public function show(Employee $employee)
     {
         $contracts = Contract::where('employee_id',  $employee->identity)->get();
-        return view('admin.employees.detail.contract')->with(['contracts' => $contracts]);
+        return view('admin.employees.detail.contract')->with(['contracts' => $contracts, 'employee' => $employee]);
     }
 
     /**

@@ -10,12 +10,11 @@
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                 <div class="input-group input-group-outline">
-                    <label class="form-label">Tìm kiếm ... </label>
-                    <input type="text" class="form-control">
+                    {{-- <label class="form-label">Tìm kiếm ... </label>
+                    <input type="text" class="form-control"> --}}
                 </div>
             </div>
             <ul class="navbar-nav  justify-content-end">
-                
                 <li class="nav-item dropdown pe-2 d-flex align-items-center">
                     <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
@@ -96,9 +95,13 @@
                     </ul>
                 </li>
                 <li class="nav-item d-flex align-items-center">
-                    <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
-                        <i class="fa fa-user me-sm-1"></i>
-                        <span class="d-sm-inline d-none">Sign In</span>
+                    <a href="" class="nav-link text-body font-weight-bold px-0 me-3">
+                        <i class="fa fa-user text-warning me-sm-1"></i>
+                        <span class="d-sm-inline d-none text-warning"> {{ Auth::guard('web')->user()->email }}</span>
+                    </a>
+                    <a href="{{ route('portal.logout') }}" class="nav-link text-body font-weight-bold px-0">
+                        <i class="fa fa-sign-out me-sm-1 text-danger"></i>
+                        <span class="d-sm-inline d-none text-danger"> Đăng xuất</span>
                     </a>
                 </li>
             </ul>

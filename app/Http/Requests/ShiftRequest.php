@@ -22,8 +22,8 @@ class ShiftRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'identity' => 'required|unique:titles,identity|min:3',
-            'name' => 'required|unique:titles,name|min:6',
+            'identity' => 'required|unique:shifts,identity|min:3',
+            'name' => 'required|unique:shifts,name|min:6',
             'minutes' => 'required|numeric|max:360|min:10',
             
         ];

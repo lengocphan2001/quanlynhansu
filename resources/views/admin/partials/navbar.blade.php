@@ -44,7 +44,7 @@
             <i class="fas fa-id-card mr-2"></i> Trang cá nhân
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="{{ route('admin.logout') }}" class="dropdown-item">
             <i class="fa fa-random mr-2"></i> Đăng xuất
           </a>
         </div>

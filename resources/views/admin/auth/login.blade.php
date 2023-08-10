@@ -22,12 +22,13 @@
                 </div>
                 <div class="box">
                     <h1 class="form-title">Đăng nhập</h1>
-                    <form action="" class="form-login">
+                    <form action="{{ route('admin.postLogin') }}" method="POST" class="form-login">
+                        @csrf
                         <div class="form-group">
-                            <label for="UserName" class="form-label">Tên đăng nhập</label>
+                            <label for="UserName" class="form-label">Email</label>
                             <div class="group-icon">
                                 <i class="fa-solid fa-user"></i>
-                                <input type="text" class="group-input" autocomplete="off" placeholder="Tên đăng nhập" name="UserName">
+                                <input type="text" class="group-input" autocomplete="off" placeholder="Tên đăng nhập" name="email">
                             </div>
                         </div>
                         <div class="form-group">
@@ -37,21 +38,8 @@
                                 <input type="password" class="group-input" autocomplete="off" placeholder="Mật khẩu" name="password">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="LanguageID" class="form-label">Ngôn ngữ</label>
-                            <div class="group-icon">
-                                <i class="fa-solid fa-language"></i>
-                                <select name="LanguageID" id="LanguageID" class="group-select">
-                                    <option value="" selected="selected">Việt Nam</option>
-                                    <option value="">English</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <label class="form-checkbox">
-                                <input id="RememberMe" name="RememberMe" type="checkbox" class="RememberMe">Lưu đăng nhập
-                            </label>
-                            <button id="btSubmit" type="button" class="form-btn">
+                        <div class="form-actions d-flex justify-content-end">
+                            <button id="btSubmit" type="submit" class="form-btn">
                                 Đăng nhập <i class="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>

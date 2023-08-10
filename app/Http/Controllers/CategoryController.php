@@ -6,6 +6,8 @@ use App\Http\Requests\ContractTypeRequest;
 use App\Http\Requests\ShiftRequest;
 use App\Http\Requests\TimeKeepingRequest;
 use App\Http\Requests\TitleRequest;
+use App\Models\BaseShift;
+use App\Models\BaseTimeKeeping;
 use App\Models\ContractType;
 use App\Models\Shift;
 use App\Models\TimeKeeping;
@@ -42,39 +44,39 @@ class CategoryController extends Controller
     }
 
     public function calamviec(){
-        $titles = Shift::all();
+        $titles = BaseShift::all();
         return view('admin.categories.calamviec.index')->with(['titles' => $titles]);
     }
 
     public function themCaLamViec(ShiftRequest $shiftRequest){
         $data = $shiftRequest->except(['_token']);
-        Shift::create($data);
+        BaseShift::create($data);
 
-        toastr()->success('Thêm loại chấm công thành công', 'Thành công');
+        toastr()->success('Thêm ca làm việc thành công', 'Thành công');
         return back();
     }
 
     public function destroyCLV(Request $request){
-        $title = Shift::where('id', $request->get('id'))->first();
+        $title = BaseShift::where('id', $request->get('id'))->first();
         $title->delete();
         toastr()->success('Xóa ca làm việc thành công', 'Thành công');
         return back();
     }
 
     public function loaichamcong(){
-        $titles = TimeKeeping::all();
+        $titles = BaseTimeKeeping::all();
         return view('admin.categories.loaichamcong.index')->with(['titles' => $titles]);
     }
     public function themLoaiChamCong(TimeKeepingRequest $shiftRequest){
         $data = $shiftRequest->except(['_token']);
-        TimeKeeping::create($data);
+        BaseTimeKeeping::create($data);
 
         toastr()->success('Thêm loại chấm công thành công', 'Thành công');
         return back();
     }
 
     public function destroyLCC(Request $request){
-        $title = TimeKeeping::where('id', $request->get('id'))->first();
+        $title = BaseTimeKeeping::where('id', $request->get('id'))->first();
         $title->delete();
         toastr()->success('Xóa loại chấm công thành công', 'Thành công');
         return back();

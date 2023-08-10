@@ -22,7 +22,8 @@ class DepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:6|unique:departments'
+            'name' => 'required|min:6|unique:departments',
+            'identity' => 'required|unique:departments,identity'
         ];
     }
 
@@ -31,7 +32,9 @@ class DepartmentRequest extends FormRequest
         return [
             'name.required' => 'Tên phòng ban không được để trống',
             'name.min' => 'Tên phòng ban có tối thiếu 6 kí tự',
-            'name.unique' => 'Tên phòng ban đã tồn tại'
+            'name.unique' => 'Tên phòng ban đã tồn tại',
+            'identity.required' => 'Mã phòng ban không được để trống',
+            'identity.unique' => 'Mã phòng ban đã tồn tại'
         ];
     }
 }

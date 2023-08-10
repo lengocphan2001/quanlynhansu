@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmployeeRequest;
+use App\Models\ContractType;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Position;
 use App\Models\Title;
+use App\Models\TotalLeave;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
@@ -28,18 +32,27 @@ class EmployeeController extends Controller
         $departments = Department::all();
         $postions = Position::all();
         $titles = Title::all();
-        return view('admin.employees.create')->with(['departments' => $departments, 'postions' => $postions, 'titles' => $titles]);
+        $contract_types = ContractType::all();
+        return view('admin.employees.create')->with(['departments' => $departments, 'positions' => $postions, 'titles' => $titles, 'contract_types' => $contract_types]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EmployeeRequest $request)
     {
         switch ($request->input('action')) {
             case 'save':
                 $data = $request->except(['_token', 'action']);
-                Employee::create($data);
+                $employee = Employee::create($data);
+                $this_month = Carbon::parse(now());
+                $start_month = Carbon::parse($employee->start_working_date);
+                $diff = $start_month->diffInMonths($this_month);
+                TotalLeave::create([
+                    'employee_id' => $employee->identity,
+                    'remaining' => $diff,
+                    'used' => 0
+                ]);
                 toastr()->success('Thêm nhân viên thành công', 'Thành công');
                 return redirect(route('employees.index'));
             case 'save-add':
@@ -52,7 +65,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        return view('admin.employees.detail.includes.layout')->with(['employee' => $employee]);
+        return view('admin.employees.detail.profile')->with(['employee' => $employee]);
     }
 
     /**
@@ -60,7 +73,6 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        
     }
 
     /**

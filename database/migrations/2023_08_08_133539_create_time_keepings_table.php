@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('time_keepings', function (Blueprint $table) {
             $table->id();
-            $table->string('identity')->unique();
-            $table->string('name');
+            $table->string('employee_id');
+            $table->date('date');
+            $table->string('start');
+            $table->string('end');
+            $table->integer('total');
             $table->timestamps();
         });
     }

@@ -37,7 +37,6 @@
                                                 <th>STT</th>
                                                 <th>Mã ca</th>
                                                 <th>Tên ca</th>
-                                               
                                                 <th>Giờ đến</th>
                                                 <th>Giờ về</th>
                                                 <th>Số phút làm việc tiêu chuẩn</th>

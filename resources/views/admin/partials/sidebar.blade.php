@@ -11,7 +11,7 @@
                 <img src="{{ asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Administrator</a>
+                <a href="#" class="d-block">{{ Auth::guard('admin')->user()->name }}</a>
             </div>
         </div>
         <nav class="mt-2">
@@ -101,31 +101,31 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="pages/charts/chartjs.html" class="nav-link">
+                            <a href="{{ route('labour-salary.labour') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tổng hợp công</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/charts/flot.html" class="nav-link">
+                            <a href="{{ route('labour-salary.time-keeping')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tổng hợp OT</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/charts/inline.html" class="nav-link">
+                            <a href="{{ route('labour-salary.total-on-leave')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tổng hợp phép</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/charts/uplot.html" class="nav-link">
+                            <a href="{{ route('labour-salary.on-leave')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tổng hợp nghỉ phép</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/charts/uplot.html" class="nav-link">
+                            <a href="{{ route('labour-salary.salary')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Bảng lương</p>
                             </a>

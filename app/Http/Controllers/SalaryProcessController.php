@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Models\SalaryProcess;
 use Illuminate\Http\Request;
 
@@ -34,9 +35,10 @@ class SalaryProcessController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SalaryProcess $salaryProcess)
+    public function show(Employee $employee)
     {
-        //
+        // $salary_process = SalaryProcess::where('employee_id',  $employee->identity)->get();
+        // return view('admin.employees.detail.contract')->with(['contracts' => $contracts, 'employee' => $employee]);
     }
 
     /**

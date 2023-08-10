@@ -22,7 +22,8 @@ class PosistionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:positions|min:3'
+            'name' => 'required|string|unique:positions,name|min:3',
+            'identity' => 'required|string|unique:positions,identity'
         ];
     }
 
@@ -30,7 +31,9 @@ class PosistionRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên vị trí công việc không được để trống',
-            'name.unique' => 'Tên vị trí công việc đã tồn tại'
+            'name.unique' => 'Tên vị trí công việc đã tồn tại',
+            'identity.required' => 'Mã vị trí công việc không được để trống',
+            'identity.unique' => 'Mã vị trí công việc đã tồn tại'
         ];
     }
 }

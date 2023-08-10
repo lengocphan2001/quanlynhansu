@@ -10,7 +10,11 @@ class TimeKeeping extends Model
     use HasFactory;
 
     protected $fillable = [
-        'identity',
-        'name',
+        'employee_id',
+        'date',
+        'start',
+        'end',
+        'total',
+        'status'
     ];
 }

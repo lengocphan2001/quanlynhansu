@@ -68,7 +68,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('employees.contract', ['employee' => $employee])}}" class="nav-link">
                                 <i class="nav-icon fas fa-photo"></i>
                                 <p>
                                     02. Hợp đồng
@@ -77,7 +77,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('employees.index') }}" class="nav-link">
+                            <a href="{{ route('employees.working-process', ['employee' => $employee]) }}" class="nav-link">
                                 <i class="nav-icon fa fa-address-book"></i>
                                 <p>
                                     03. Quá trình làm việc
@@ -85,7 +85,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('employees.index') }}" class="nav-link">
+                            <a href="{{ route('employees.salary-process', ['employee' => $employee]) }}" class="nav-link">
                                 <i class="nav-icon fa fa-archive"></i>
                                 <p>
                                     04. Diễn biến lương

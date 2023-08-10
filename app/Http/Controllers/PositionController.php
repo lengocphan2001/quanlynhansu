@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PosistionRequest;
 use App\Models\Department;
+use App\Models\Employee;
 use App\Models\Position;
+use App\Models\Title;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
@@ -15,8 +17,10 @@ class PositionController extends Controller
     public function index()
     {
         $positions = Position::all();
+        $titles = Title::all();
         $departments = Department::all();
-        return view('admin.positions.index')->with(['positions' => $positions, 'departments' => $departments]);
+        $managers = Employee::all();
+        return view('admin.positions.index')->with(['positions' => $positions, 'departments' => $departments, 'managers' => $managers, 'titles' => $titles]);
     }
 
     /**
@@ -52,7 +56,11 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
-        //
+        $positions = Position::all();
+        $titles = Title::all();
+        $departments = Department::all();
+        $managers = Employee::all();
+        return view('admin.positions.edit')->with(['positions' => $positions, 'departments' => $departments, 'managers' => $managers, 'titles' => $titles, 'position' => $position]);
     }
 
     /**
@@ -60,7 +68,12 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        //
+        $data = $request->except(['_token']);
+
+        $position->update($data);
+        toastr()->success('Sửa vị trí công việc thành công', 'Thành công');
+
+        return redirect()->route('organization.positions.index');
     }
 
     /**
@@ -69,9 +82,7 @@ class PositionController extends Controller
     public function destroy(Request $request)
     {
         $position = Position::where('id', $request->get('id'))->first();
-
         $position->delete();
-
         toastr()->success('Xóa vị trí công việc thành công', 'Thành công');
 
         return redirect()->route('organization.positions.index');

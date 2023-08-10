@@ -59,7 +59,7 @@
                                                     <td>{{ $item->name }}</td>
                                                     <td>{{ $item->parent_id == 0 ? 'Phòng ban cha' : Department::where('id', $item->parent_id)->first()->name }}
                                                     </td>
-                                                    <td>{{ $item->manager_id }}</td>
+                                                    <td>{{ $item->manager_id ?? 'Chưa có' }}</td>
                                                     <td>
                                                         @if ($item->status == 0)
                                                             <span class="badge badge-pill badge-danger">Đã xóa/giải
@@ -139,6 +139,17 @@
                                 @endif
                             </div>
 
+                            <div class="form-group">
+                                <label for="password1">Mã phòng ban</label>
+                                <input type="text" class="form-control" id="password1" placeholder="Mã phòng ban"
+                                    name="identity">
+                                @if ($errors->has('identity'))
+                                    <div class='text-danger'>
+                                        * {{ $errors->first('identity') }}
+                                    </div>
+                                @endif
+                            </div>
+
 
                             <div class="form-group">
                                 <label for="email1">Phòng ban cha</label>
@@ -153,11 +164,9 @@
                             <div class="form-group">
                                 <label for="password1">Quản lý</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="manager_id">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    @foreach ($managers as $item)
+                                        <option value="{{ $item->identity }}">{{ $item->fullname }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

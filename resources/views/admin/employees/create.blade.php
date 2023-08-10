@@ -31,11 +31,23 @@
                                                     <div class="nhansuThemMoi-form-left-group">
                                                         <label for="">Mã nhân viên: <span>*</span></label>
                                                         <input type="text" name="identity">
+                                                        @if ($errors->has('identity'))
+                                                            <div class='text-danger'>
+                                                                * {{ $errors->first('identity') }}
+                                                            </div>
+                                                        @endif
                                                     </div>
+
                                                     <div class="nhansuThemMoi-form-left-group">
                                                         <label for="">Họ và tên: <span>*</span></label>
                                                         <input type="text" name="fullname">
+                                                        @if ($errors->has('fullname'))
+                                                            <div class='text-danger'>
+                                                                * {{ $errors->first('fullname') }}
+                                                            </div>
+                                                        @endif
                                                     </div>
+
                                                 </div>
                                                 <div class="nhansuThemMoi-form-left-box">
                                                     <div class="nhansuThemMoi-form-left-group">
@@ -59,7 +71,13 @@
                                                     <div class="nhansuThemMoi-form-left-group">
                                                         <label for="">CCCD: <span>*</span></label>
                                                         <input type="text" name="identity_card">
+                                                        @if ($errors->has('identity_card'))
+                                                            <div class='text-danger'>
+                                                                * {{ $errors->first('identity_card') }}
+                                                            </div>
+                                                        @endif
                                                     </div>
+
                                                 </div>
                                             </div>
                                             <div class="nhansuThemMoi-form-right">
@@ -121,12 +139,24 @@
                                             <div class="nhansuThemMoi-form-left-group" style="max-width: calc(100% / 4)">
                                                 <label for="">Số điện thoại:</label>
                                                 <input type="text" name="phone">
+                                                @if ($errors->has('phone'))
+                                                    <div class='text-danger'>
+                                                        * {{ $errors->first('phone') }}
+                                                    </div>
+                                                @endif
                                             </div>
+
 
                                             <div class="nhansuThemMoi-form-left-group" style="max-width: calc(100% / 4)">
                                                 <label for="">Email:</label>
                                                 <input type="email" name="email">
+                                                @if ($errors->has('email'))
+                                                    <div class='text-danger'>
+                                                        * {{ $errors->first('email') }}
+                                                    </div>
+                                                @endif
                                             </div>
+
 
                                         </div>
                                         <p class="nhansuThemMoi-form-left-text">Thông tin tiếp nhận nhân sự</p>
@@ -142,7 +172,10 @@
                                             <div class="nhansuThemMoi-form-box-group">
                                                 <label for="">Phòng ban: <span>*</span></label>
                                                 <select name="department" id="">
-                                                    <option value="Đã kết hôn">Đã kết hôn</option>
+                                                    <option value="Chưa có">Chưa có</option>
+                                                    @foreach ($departments as $item)
+                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -150,13 +183,19 @@
                                             <div class="nhansuThemMoi-form-box-group">
                                                 <label for="">Vị trí công việc: <span>*</span></label>
                                                 <select name="position" id="">
-                                                    <option value="Đã kết hôn">Đã kết hôn</option>
+                                                    <option value="Chưa có">Chưa có</option>
+                                                    @foreach ($positions as $item)
+                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="nhansuThemMoi-form-box-group">
                                                 <label for="">Chức danh:</label>
                                                 <select name="title" id="">
-                                                    <option value="Đã kết hôn">Đã kết hôn</option>
+                                                    <option value="Chưa có">Chưa có</option>
+                                                    @foreach ($titles as $item)
+                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="nhansuThemMoi-form-box-group">
@@ -171,7 +210,10 @@
                                             <div class="nhansuThemMoi-form-box-group">
                                                 <label for="">Loại hợp đồng:</label>
                                                 <select name="contract_type" id="">
-                                                    <option value="Đã kết hôn">Đã kết hôn</option>
+                                                    <option value="chưa có">Chưa có</option>
+                                                    @foreach ($contract_types as $item)
+                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="nhansuThemMoi-form-box-group">
@@ -190,10 +232,13 @@
                                             </div>
                                         </div>
                                         <div class="nhansuThemMoi-form-title-right form-themnhansu-btn">
-                                            <button name="action" class="nhansuThemMoi-form-title-btn" value="save" type="submit">Lưu thông tin</button>
-                                            <button value="save-add" name="action" class="nhansuThemMoi-form-title-btn" type="submit">Lưu & thêm mới</button>
+                                            <button name="action" class="nhansuThemMoi-form-title-btn" value="save"
+                                                type="submit">Lưu thông tin</button>
+                                            <button value="save-add" name="action" class="nhansuThemMoi-form-title-btn"
+                                                type="submit">Lưu & thêm mới</button>
                                             <button value="add-move" name="action"
-                                                class="nhansuThemMoi-form-title-btn nhansuThemMoi-form-title-btn__chuyen" type="submit">Thêm
+                                                class="nhansuThemMoi-form-title-btn nhansuThemMoi-form-title-btn__chuyen"
+                                                type="submit">Thêm
                                                 mới <i class="fa-solid fa-arrow-right"></i> Chuyển hợp đồng</button>
                                         </div>
                                     </form>

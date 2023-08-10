@@ -36,11 +36,11 @@
                                     <option value="0">Chọn nhân viên</option>
                                     <option value="1">CEO Office</option>
                                 </select>
-                                <button class="btn btn-success mr-2" data-toggle="modal" data-target="#form" type="button"><i
-                                        class="fa fa-search"></i> Tìm kiếm </button>
-                                        <button class="btn btn-success" data-toggle="modal" data-target="#form" type="button"><i
+                                <button class="btn btn-success mr-2" data-toggle="modal" data-target="#form"
+                                    type="button"><i class="fa fa-search"></i> Tìm kiếm </button>
+                                <button class="btn btn-success" data-toggle="modal" data-target="#form" type="button"><i
                                         class="fa fa-file-excel-o"></i></button>
-                            
+
                             </div>
                         </div>
                         <div class="card-body">
@@ -49,48 +49,21 @@
                                     <table id="myTable" class="stripe cell-border hover">
                                         <thead>
                                             <tr>
-                                                <th>Mã chấm công</th>
-                                                <th>Họ và tên</th>
+                                                <th>Mã nhân viên</th>
                                                 <th>Ngày chấm công</th>
-                                                <th>Giờ chấm công</th>
+                                                <th>Giờ đến</th>
+                                                <th>Giờ về</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>CC1</td>
-
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>28-02-2002</td>
-                                                <td>12:20</td>
-                                            </tr>
-                                            {{-- @foreach ($departments as $item)
+                                            @foreach ($labours as $item)
                                                 <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>PB{{ $item->id }}</td>
-                                                    <td>{{ $item->name }}</td>
-                                                    <td>{{ $item->parent_id == 0 ? 'Phòng ban cha' : Department::where('id', $item->parent_id)->first()->name }}
-                                                    </td>
-                                                    <td>{{ $item->manager_id }}</td>
-                                                    <td>
-                                                        @if ($item->status == 0)
-                                                            <span class="badge badge-pill badge-danger">Đã xóa/giải
-                                                                thể</span>
-                                                        @else
-                                                            <span class="badge badge-pill badge-success">Hoạt động</span>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <a href="{{ route('organization.departments.edit', ['department' => $item]) }}"
-                                                            class="btn btn-primary mr-3" style="margin-right: 10px;"><i
-                                                                class="bx bx-pencil"></i></a>
-                                                        <button class="btn btn-danger deleteConfirm"
-                                                            value="{{ $item->id }}" type="button">
-                                                            <i class="bx bx-trash"></i>
-                                                        </button>
-                                                    </td>
+                                                    <td>{{ $item->employee_id }}</td>
+                                                    <td>{{ $item->date }}</td>
+                                                    <td>{{ $item->start }}</td>
+                                                    <td>{{ $item->end }}</td>
                                                 </tr>
-                                            @endforeach --}}
-
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -101,89 +74,31 @@
 
             </div>
         </div>
-        <div class="modal fade" id="deleteDepartment" data-backdrop="static" tabindex="-1" role="dialog"
-            aria-labelledby="deleteCategory" aria-hidden="true">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <form action="{{ route('organization.departments.destroy') }}" method="POST">
-                        @csrf
-                        <input type="text" name="id" value="" id="id" hidden>
-                        <div class="modal-header">
-                            <h5 class="modal-title">Xóa phòng ban</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Bạn có muốn xóa phòng ban này <span id="modal-category_name"></span>?
-                            <input type="hidden" id="category" name="category_id">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn bg-white" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-danger" id="modal-confirm_delete">Xóa</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
         <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header border-bottom-0 bg-light">
-                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới phòng ban</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Nhập file excel</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{ route('organization.departments.store') }}" method="POST">
+                    <form action="{{ route('labour-salary.import-labour') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="password1">Tên phòng ban</label>
-                                <input type="text" class="form-control" id="password1" placeholder="Tên phòng ban"
-                                    name="name">
-                                @if ($errors->has('name'))
-                                    <div class='text-danger'>
-                                        * {{ $errors->first('name') }}
-                                    </div>
-                                @endif
+                                <label for="password1">File excel</label>
+                                <input type="file" class="form-control" id="password1" placeholder="Tên phòng ban"
+                                    name="excel">
                             </div>
-
-
-                            <div class="form-group">
-                                <label for="email1">Phòng ban cha</label>
-                                <select class="form-control" id="exampleFormControlSelect1" name="parent_id">
-                                    <option value="0">Phòng ban cha</option>
-                                    {{-- @foreach ($departments as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach --}}
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="password1">Quản lý</label>
-                                <select class="form-control" id="exampleFormControlSelect1" name="manager_id">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer border-top-0 d-flex bg-light justify-content-between">
-                            <div class="custom-control custom-checkbox custom-control-inline">
-                                <input type="checkbox" class="custom-control-input" id="defaultInline2" name="isDelete">
-                                <label class="custom-control-label" for="defaultInline2">Đã
-                                    xóa/giải thể</label>
-                            </div>
-                            <div>
-                                <button class="btn btn-danger" data-dismiss="modal" type="button"><i
-                                        class="fa fa-close mr-1"></i> Đóng </button>
-                                <button class="btn btn-success delete" type="submit"><i class="fa fa-check mr-1"></i>
-                                    Lưu thông
-                                    tin </button>
+                            <div class="modal-footer border-top-0 d-flex bg-light justify-content-between">
+                                <div>
+                                    <button class="btn btn-danger" data-dismiss="modal" type="button"><i
+                                            class="fa fa-close mr-1"></i> Đóng </button>
+                                    <button class="btn btn-success delete" type="submit"><i class="fa fa-check mr-1"></i>
+                                        Đồng ý nhập file </button>
+                                </div>
                             </div>
                         </div>
                     </form>

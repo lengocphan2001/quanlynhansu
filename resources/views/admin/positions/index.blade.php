@@ -46,16 +46,16 @@
                                             @foreach ($positions as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>VT{{ $item->id }}</td>
+                                                    <td>{{ $item->identity }}</td>
                                                     <td>{{ $item->name }}</td>
                                                     <td>{{ $item->department }}</td>
                                                     <td>{{ $item->manager }}</td>
                                                     <td>{{ $item->title }}</td>
 
                                                     <td>
-                                                        <a href="" class="btn btn-primary mr-3"
+                                                        <a href="{{ route('organization.positions.edit', ['position' => $item ])}}" class="btn btn-primary mr-3"
                                                             style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
-                                                            <button class="btn btn-danger deleteConfirm"
+                                                        <button class="btn btn-danger deleteConfirm"
                                                             value="{{ $item->id }}" type="button">
                                                             <i class="bx bx-trash"></i>
                                                         </button>
@@ -107,43 +107,55 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{ route('organization.positions.store')}}" method="POST">
+                    <form action="{{ route('organization.positions.store') }}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <h4>Thông tin chung</h4>
                             <div class="form-group">
                                 <label for="email1">Tên vị trí công việc</label>
-                                <input type="email" class="form-control" id="email1" aria-describedby="emailHelp"
+                                <input type="text" class="form-control" id="email1" aria-describedby="emailHelp"
                                     name="name" placeholder="Tên vị trí">
+                                @if ($errors->has('name'))
+                                    <div class='text-danger'>
+                                        * {{ $errors->first('name') }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label for="email1">Mã vị trí công việc</label>
+                                <input type="text" class="form-control" id="email1" aria-describedby="emailHelp"
+                                    name="identity" placeholder="Mã vị trí">
+                                @if ($errors->has('identity'))
+                                    <div class='text-danger'>
+                                        * {{ $errors->first('identity') }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Quản lý</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
+                                <select class="form-control" id="exampleFormControlSelect1" name="manager">
                                     <option value="Chưa có">Chưa có</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    @foreach ($managers as $item)
+                                        <option value="{{ $item->fullname }}">{{ $item->fullname }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Chức danh</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
+                                <select class="form-control" id="exampleFormControlSelect1" name="title">
                                     <option value="Chưa có">Chưa có</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    @foreach ($titles as $item)
+                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Phòng ban</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
+                                <select class="form-control" id="exampleFormControlSelect1" name="department">
                                     <option value="Chưa có">Chưa có</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    @foreach ($departments as $item)
+                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

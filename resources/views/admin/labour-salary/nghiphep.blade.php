@@ -1,5 +1,6 @@
 @php
     use App\Models\Department;
+    use App\Models\Employee;
 @endphp
 @extends('admin.index')
 @section('content')
@@ -25,23 +26,6 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header border-0">
-                            <div class="d-flex" style="gap: 20xp">
-                                <input type="date" class="mr-2">
-                                <input type="date" class="mr-2">
-                                <select class="mr-2 w-25" id="exampleFormControlSelect1">
-                                    <option value="0">Trạng thái : Đã duyệt</option>
-                                    <option value="1">Trạng thái : Chưa duyệt</option>
-                                </select>
-                                <select class="mr-2 w-25" id="exampleFormControlSelect1">
-                                    <option value="0">Chọn nhân viên</option>
-                                    <option value="1">CEO Office</option>
-                                </select>
-                                <button class="btn btn-success mr-2" type="button"><i
-                                        class="fa fa-search"></i> Tìm kiếm </button>
-                                        <button class="btn btn-success" data-toggle="modal" data-target="#form" type="button"><i
-                                        class="fa fa-plus"></i></button>
-                            
-                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -51,59 +35,35 @@
                                             <tr>
                                                 <th>Họ và tên</th>
                                                 <th>Trạng thái</th>
-                                                <th>Phòng ban</th>
                                                 <th>Ngày lập</th>
-                                                <th>Hình thức nghỉ</th>
                                                 <th>Ngày bắt đầu</th>
                                                 <th>Ngày kết thúc</th>
                                                 <th>Số ngày nghỉ</th>
-                                                <th>Ngày nhập</th>
-                                                <th>Người nhập</th>
-                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>CC1</td>
-                                                <td><span class="badge badge-success">Lê Ngọc Phan</span></td>
-                                                <td>28-02-2002</td>
-                                                <td>12:20</td>
-                                                <td>CC1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>28-02-2002</td>
-                                                <td>12:20</td>
-                                                <td>CC1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>28-02-2002</td>
-                                            </tr>
-                                            {{-- @foreach ($departments as $item)
+                                            @foreach ($leaves as $item)
+                                                @php
+                                                    $employee = Employee::where('identity', $item->employee_id)->first();
+                                                @endphp
                                                 <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>PB{{ $item->id }}</td>
-                                                    <td>{{ $item->name }}</td>
-                                                    <td>{{ $item->parent_id == 0 ? 'Phòng ban cha' : Department::where('id', $item->parent_id)->first()->name }}
-                                                    </td>
-                                                    <td>{{ $item->manager_id }}</td>
+                                                    <td>{{ $employee->fullname }}</td>
+
                                                     <td>
-                                                        @if ($item->status == 0)
-                                                            <span class="badge badge-pill badge-danger">Đã xóa/giải
-                                                                thể</span>
+                                                        @if ($item->status)
+                                                            <span class="badge badge-primary">Đã duyệt</span>
                                                         @else
-                                                            <span class="badge badge-pill badge-success">Hoạt động</span>
+                                                            <span class="badge badge-danger">Chưa được duyệt</span>
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <a href="{{ route('organization.departments.edit', ['department' => $item]) }}"
-                                                            class="btn btn-primary mr-3" style="margin-right: 10px;"><i
-                                                                class="bx bx-pencil"></i></a>
-                                                        <button class="btn btn-danger deleteConfirm"
-                                                            value="{{ $item->id }}" type="button">
-                                                            <i class="bx bx-trash"></i>
-                                                        </button>
+                                                        {{ $item->created_at }}
                                                     </td>
+                                                    <td>{{ $item->start }}</td>
+                                                    <td>{{ $item->end }}</td>
+                                                    <td>{{ $item->total }}</td>
                                                 </tr>
-                                            @endforeach --}}
-
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

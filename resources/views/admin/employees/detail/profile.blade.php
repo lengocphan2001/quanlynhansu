@@ -36,10 +36,6 @@
                                     <p>Họ và tên</p>
                                     <p>Ngày sinh</p>
                                     <p>CCCD</p>
-
-
-
-
                                 </div>
                                 <div class="col-lg-6">
                                     <p>{{ $employee->identity ?? 'Chưa có' }}</p>
