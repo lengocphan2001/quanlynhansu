@@ -1,5 +1,9 @@
 @php
     use Carbon\Carbon;
+    use App\Models\Department;
+    use App\Models\Title;
+    use App\Models\Position;
+    use App\Models\ContractType;
 @endphp
 @extends('admin.employees.detail.includes.layout', ['employee' => $employee])
 

@@ -1,3 +1,9 @@
+@php
+    use App\Models\Department;
+    use App\Models\Title;
+    use App\Models\Position;
+    use App\Models\ContractType;
+@endphp
 @extends('admin.index')
 @section('content')
     <!-- Content Header (Page header) -->
@@ -51,10 +57,10 @@
                                                     <td>{{ $item->fullname }}</td>
                                                     <td>{{ $item->current_address }}</td>
                                                     <td>{{ $item->phone }}</td>
-                                                    <td>{{ $item->department }}</td>
+                                                    <td>{{ Department::where('identity', $item->department)->first()->name ?? 'Chưa có' }}</td>
                                                     <td>{{ $item->working_status }}</td>
-                                                    <td>{{ $item->title }}</td>
-                                                    <td>{{ $item->position }}</td>
+                                                    <td>{{ Title::where('identity', $item->title)->first()->name ?? 'Chưa có' }}</td>
+                                                    <td>{{ Position::where('identity', $item->positio)->first()->name ?? 'Chưa có' }}</td>
 
                                                     <td>
                                                         <a href="{{ route('employees.show', ['employee' => $item]) }}"

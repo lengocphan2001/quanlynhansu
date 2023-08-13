@@ -42,6 +42,7 @@
                                                 <th>Loại hợp đồng</th>
                                                 <th>Ngày bắt đầu</th>
                                                 <th>Ngày kết thúc</th>
+                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -52,6 +53,15 @@
                                                     </td>
                                                     <td>{{ $item->contract_start }}</td>
                                                     <td>{{ $item->contract_end }}</td>
+                                                    <td>
+                                                        <a href="{{ route('employees.contract.edit', ['contract' => $item]) }}"
+                                                            class="btn btn-primary mr-3" style="margin-right: 10px;"><i
+                                                                class="bx bx-pencil"></i></a>
+                                                        <button class="btn btn-danger deleteConfirm"
+                                                            value="{{ $item->id }}" type="button">
+                                                            <i class="bx bx-trash"></i>
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             @endforeach
 

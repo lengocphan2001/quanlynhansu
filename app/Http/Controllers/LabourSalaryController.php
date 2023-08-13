@@ -6,6 +6,8 @@ use App\Imports\ImportLabour;
 use App\Models\Employee;
 use App\Models\Labour;
 use App\Models\Leave;
+use App\Models\SalaryProcess;
+use App\Models\SalaryTable;
 use App\Models\TimeKeeping;
 use App\Models\TotalLabour;
 use App\Models\TotalLeave;
@@ -26,25 +28,27 @@ class LabourSalaryController extends Controller
             for ($i = 1; $i <= 12; $i++) {
                 $count = DB::table('labours')->where('employee_id', '=', $identity)->whereMonth('date', '=', $i)->whereYear('date', '=', $year)->count();
                 $labour = TotalLabour::where([['month', '=', $i], ['employee_id', '=', $identity], ['year', '=', $year]])->first();
+                $leaves = Leave::where('employee_id', $identity)->whereMonth('start', '=', $i)->whereYear('start', '=', $year)->sum('total');
+                $ots = TimeKeeping::where('employee_id', $identity)->whereMonth('date', '=', $i)->whereYear('date', '=', $year)->sum('total');
                 if (!$labour) {
                     TotalLabour::create([
                         'employee_id' => $identity,
                         'month' => $i,
                         'year' => $year,
                         'real_labour' => $count,
-                        'leave_labour' => 0,
-                        'ot_labour' => 0,
-                        'total_labour' => 0
+                        'leave_labour' => $leaves,
+                        'ot_labour' => $ots,
+                        'total_labour' => $count + $leaves
                     ]);
-                }else{
+                } else {
                     $labour->update([
                         'employee_id' => $identity,
                         'month' => $i,
                         'year' => $year,
                         'real_labour' => $count,
-                        'leave_labour' => 0,
-                        'ot_labour' => 0,
-                        'total_labour' => 0
+                        'leave_labour' => $leaves,
+                        'ot_labour' => $ots,
+                        'total_labour' => $count + $leaves
                     ]);
                 }
             }
@@ -65,15 +69,57 @@ class LabourSalaryController extends Controller
 
     public function salary()
     {
-        // $labours = TotalLabour::all();
         return view('admin.labour-salary.salary');
     }
 
-    public function viewSalary(Request $request){
-        // dd($request->all());
+    public function viewSalary(Request $request)
+    {
+        $month = $request->get('month');
+        $year = $request->get('year');
 
-        $total_labour = TotalLabour::all();
-        
+
+        $employee = Employee::all();
+
+        foreach ($employee as $key => $item) {
+            $total_labour = TotalLabour::where([['employee_id', '=', $item->identity], ['month', '=', $month], ['year', '=', $year]])->first();
+
+            $salary_process = SalaryProcess::where('employee_id', $item->identity)->get()->last();
+
+            $salary_table = SalaryTable::where([['employee_id', '=', $item->identity], ['month', '=', $month], ['year', '=', $year]])->first();
+            if (!$salary_table) {
+                SalaryTable::create([
+                    'employee_id' => $item->identity,
+                    'fullname' => $item->fullname,
+                    'department' => '0',
+                    'month' => $month,
+                    'year' => $year,
+                    'total_labour' => $total_labour->total_labour,
+                    'ot_labour' => $total_labour->ot_labour,
+                    'salary' => $salary_process->salary,
+                    'salary_by_work' => $salary_process->salary * $total_labour->total_labour / 24,
+                    'salary_ot' => $salary_process->salary * $total_labour->ot_labour / 8 / 24 * 1.5,
+                    'recieved_salary' => ($salary_process->salary * $total_labour->total_labour / 24) + ($salary_process->salary * $total_labour->ot_labour / 8 / 24 * 1.5)
+                ]);
+            } else {
+                $salary_table->update([
+                    'employee_id' => $item->identity,
+                    'fullname' => $item->fullname,
+                    'deparment' => $item->department,
+                    'month' => $month,
+                    'year' => $year,
+                    'total_labour' => $total_labour->total_labour,
+                    'ot_labour' => $total_labour->ot_labour,
+                    'salary' => $salary_process->salary,
+                    'salary_by_work' => $salary_process->salary * $total_labour->total_labour / 24,
+                    'salary_ot' => $salary_process->salary * $total_labour->ot_labour / 8 / 24 * 1.5,
+                    'recieved_salary' => ($salary_process->salary * $total_labour->total_labour / 24) + ($salary_process->salary * $total_labour->ot_labour / 8 / 24 * 1.5)
+                ]);
+            }
+        }
+
+        $salary_tables = SalaryTable::where([['month', '=', $month], ['year', '=', $year]])->get();
+
+        return view('admin.labour-salary.salary')->with(['salary_table' => $salary_tables]);
     }
 
 

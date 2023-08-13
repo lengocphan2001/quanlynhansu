@@ -6,7 +6,9 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Leave;
 use App\Models\Notification;
+use App\Models\SalaryTable;
 use App\Models\TimeKeeping;
+use App\Models\TotalLabour;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -80,7 +82,28 @@ class PortalController extends Controller
         return back();
     }
 
+    public function monthLabour(){
+        return view('user.profile.labour');
+    }
 
+    public function monthLabourPost(Request $request){
+        
+        $month = $request->get('month');
+        $year = date('Y');
+
+        $total_labours = TotalLabour::where([['month', '=', $month], ['year', '=', $year],['employee_id', '=', Auth::guard('web')->user()->identity]])->get();
+        // dd($total_labours);
+        return view('user.profile.labour')->with(['total_labours' => $total_labours]);
+    }
+
+    public function salary(){
+        $month = date('n');
+        $year = date('Y');
+
+        $salary_table = SalaryTable::where([['employee_id', '=', Auth::guard('web')->user()->identity], ['month', '=', $month], ['year', '=', $year]])->first();
+
+        return view('user.profile.salary')->with(['salary_table' => $salary_table]);
+    }
 
 
     

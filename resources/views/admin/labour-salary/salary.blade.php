@@ -58,7 +58,8 @@
                                     </div>
 
                                     <div>
-                                        <button class="btn btn-success" type="submit"><i class="fa fa-search"></i>Tính lương</button>
+                                        <button class="btn btn-success" type="submit"><i class="fa fa-search"></i>Tính
+                                            lương</button>
                                     </div>
                                 </form>
 
@@ -71,24 +72,34 @@
                                         <thead>
                                             <tr>
                                                 <th>Mã nhân viên</th>
+                                                <th>Họ và tên</th>
                                                 <th>Tháng</th>
-                                                <th>Công thực tế</th>
-                                                <th>Công phép</th>
+                                                <th>Năm</th>
                                                 <th>Tổng giờ OT</th>
                                                 <th>Tổng công</th>
+                                                <th>Lương cơ bản</th>
+                                                <th>Lương theo tổng công</th>
+                                                <th>Lương OT</th>
+                                                <th>Lương thực nhận</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach ($total_labours as $item)
-                                                <tr>
-                                                    <td>{{ $item->employee_id }}</td>
-                                                    <td>{{ $item->month }}</td>
-                                                    <td>{{ $item->real_labour }}</td>
-                                                    <td>{{ $item->leave_labour }}</td>
-                                                    <td>{{ $item->ot_labour }}</td>
-                                                    <td>{{ $item->total_labour }}</td>
-                                                </tr> --}}
-                                            {{-- @endforeach --}}
+                                            @if (isset($salary_table))
+                                                @foreach ($salary_table as $item)
+                                                    <tr>
+                                                        <td>{{ $item->employee_id }}</td>
+                                                        <td>{{ $item->fullname }}</td>
+                                                        <td>{{ $item->month }}</td>
+                                                        <td>{{ $item->year }}</td>
+                                                        <td>{{ $item->ot_labour }}</td>
+                                                        <td>{{ $item->total_labour }}</td>
+                                                        <td>{{ $item->salary }}đ</td>
+                                                        <td>{{ $item->salary_by_work }}đ</td>
+                                                        <td>{{ $item->salary_ot }}đ</td>
+                                                        <td>{{ $item->recieved_salary }}đ</td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

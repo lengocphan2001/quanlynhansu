@@ -1,3 +1,8 @@
+@php
+    use App\Models\Department;
+    use App\Models\Title;
+    use App\Models\Position;
+@endphp
 @extends('admin.employees.detail.includes.layout')
 @section('content')
     <!-- Content Header (Page header) -->
@@ -35,27 +40,24 @@
                                     <table id="myTable" class="stripe cell-border hover">
                                         <thead>
                                             <tr>
-                                                <th>STT</th>
                                                 <th>Số quyết định</th>
                                                 <th>Ngày quyết định</th>
                                                 <th>Ngày hưởng</th>
-                                                <th>Phòng ban</th>
-                                                <th>Vị trí công việc</th>
                                                 <th>Mức lương</th>
                                                 <th>Lương(total)</th>
-                                                <th>Chức danh mới</th>
+                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($salary_process as $item)
+                                                
+                                            
                                             <tr>
-                                                <td>1</td>
-                                                <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
-                                                <td>Vị trí công việc cũ</td>
-                                                <td>Chức danh cũ</td>
-                                                <td>Phòng ban mới</td>
+                                                <td>{{ $item->decision_number }}</td>
+                                                <td>{{ $item->decision_date }} </td>
+                                                <td>{{ $item->date_use }}</td>
+                                                <td>{{ $item->salary}}</td>
+                                                <td>{{ $item->total}}</td>
                                                 <td>
                                                     <a href="" class="btn btn-primary mr-3"
                                                         style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
@@ -64,6 +66,7 @@
                                                     </a>
                                                 </td>
                                             </tr>
+                                            @endforeach
 
                                         </tbody>
                                     </table>
@@ -110,40 +113,29 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form>
+                    <form action="{{ route('employees.salary-process.create', ['employee' => $employee]) }}" method="POST">
+                        @csrf
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="email1">Số quyết định</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="decision_number">
                             </div>
                              <div class="form-group">
                                 <label for="email1">Ngày quyết định</label>
-                                <input type="date" class="form-control">
+                                <input type="date" class="form-control" name="decision_date">
                             </div>
                             <div class="form-group">
                                 <label for="email1">Ngày hưởng</label>
-                                <input type="date" class="form-control">
+                                <input type="date" class="form-control" name="date_use">
                             </div>
 
                             <div class="form-group">
-                                <label for="email1">Phòng ban</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option value="Phòng ban 1">PB1</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="email1">Vị trí công việc</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option value="Loại 1">P1</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label for="email1">Mức lương</label>
-                                <input type="number" class="form-control">
+                                <input type="number" class="form-control" name="salary">
                             </div>
                             <div class="form-group">
                                 <label for="email1">Lương(total)</label>
-                                <input type="number" class="form-control">
+                                <input type="number" class="form-control" name="total">
                             </div>
                             
                         </div>

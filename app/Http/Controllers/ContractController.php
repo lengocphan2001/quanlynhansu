@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contract;
+use App\Models\ContractType;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
@@ -55,7 +56,8 @@ class ContractController extends Controller
      */
     public function edit(Contract $contract)
     {
-        //
+        $contract_types = ContractType::all();
+        return view('admin.employees.detail.edit_contract')->with(['contract' => $contract, 'contract_types' => $contract_types]);
     }
 
     /**
@@ -63,7 +65,17 @@ class ContractController extends Controller
      */
     public function update(Request $request, Contract $contract)
     {
-        //
+        $data = $request->all();
+        $contract->update([
+            'contract_type' => $data['contract_type'],
+            'contract_number' => $data['contract_number'],
+            'contract_start' => $data['contract_start'],
+            'contract_end' => $data['contract_end']
+        ]);
+
+        toastr()->success('Chỉnh sửa quá trình hợp đồng thành công', 'Thành công');
+
+        return back();
     }
 
     /**

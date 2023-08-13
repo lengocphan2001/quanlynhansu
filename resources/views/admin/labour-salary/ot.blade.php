@@ -1,5 +1,6 @@
 @php
     use App\Models\Department;
+    use App\Models\Employee;
 @endphp
 @extends('admin.index')
 @section('content')
@@ -36,11 +37,11 @@
                                     <option value="0">Chọn nhân viên</option>
                                     <option value="1">CEO Office</option>
                                 </select>
-                                <button class="btn btn-success mr-2" type="button"><i
-                                        class="fa fa-search"></i> Tìm kiếm </button>
-                                        <button class="btn btn-success" data-toggle="modal" data-target="#form" type="button"><i
+                                <button class="btn btn-success mr-2" type="button"><i class="fa fa-search"></i> Tìm kiếm
+                                </button>
+                                <button class="btn btn-success" data-toggle="modal" data-target="#form" type="button"><i
                                         class="fa fa-plus"></i></button>
-                            
+
                             </div>
                         </div>
                         <div class="card-body">
@@ -53,29 +54,34 @@
                                                 <th>Trạng thái</th>
                                                 <th>Phòng ban</th>
                                                 <th>Ngày lập</th>
-                                                <th>Hình thức nghỉ</th>
-                                                <th>Ngày bắt đầu</th>
-                                                <th>Ngày kết thúc</th>
-                                                <th>Số ngày nghỉ</th>
-                                                <th>Ngày nhập</th>
-                                                <th>Người nhập</th>
-                                                <th>Hành động</th>
+                                                <th>Ngày đăng ký</th>
+                                                <th>Giờ bắt đầu</th>
+                                                <th>Giờ kết thúc</th>
+                                                <th>Tổng số giờ</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>CC1</td>
-                                                <td><span class="badge badge-success">Lê Ngọc Phan</span></td>
-                                                <td>28-02-2002</td>
-                                                <td>12:20</td>
-                                                <td>CC1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>28-02-2002</td>
-                                                <td>12:20</td>
-                                                <td>CC1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>28-02-2002</td>
-                                            </tr>
+                                            @foreach ($ots as $item)
+                                                @php
+                                                    $employee = Employee::where('identity', $item->employee_id)->first();
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $employee->fullname ?? 'Chưa có' }}</td>
+                                                    <td>
+                                                        @if ($item->status == 1)
+                                                            <span class="badge badge-success">Đã duyệt</span>
+                                                        @else
+                                                            <span class="badge badge-danger">Chưa duyệt</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $employee->department ? Department::where('identity', $employee->department)->first()->name ?? 'Chưa có' : 'Chưa có' }}</td>
+                                                    <td>{{ $item->created_at }}</td>
+                                                    <td>{{ $item->date }}</td>
+                                                    <td>{{ $item->start }}</td>
+                                                    <td>{{ $item->end }}</td>
+                                                    <td>{{ $item->total }}</td>
+                                                </tr>
+                                            @endforeach
                                             {{-- @foreach ($departments as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>

@@ -27,9 +27,24 @@ class SalaryProcessController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Employee $employee)
     {
-        //
+        // dd($request);
+        SalaryProcess::create([
+            'employee_id' => $employee->identity,
+            'decision_number' => $request->get('decision_number'),
+            'decision_date' => $request->get('decision_date'),
+            'date_use' => $request->get('date_use'),
+            'department' => '0',
+            'position' => '0',
+            'title' => '0',
+            'salary' => $request->get('salary'),
+            'total' => $request->get('total'),
+        ]);
+
+        toastr()->success('Thêm diễn biến lương thành công', 'Thành công');
+
+        return back();
     }
 
     /**

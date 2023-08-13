@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('employee_id');
             $table->string('fullname');
             $table->string('department');
+            $table->integer('month');
+            $table->integer('year');
             $table->integer('total_labour');
             $table->integer('ot_labour');
             $table->integer('salary');

@@ -43,14 +43,18 @@ Route::middleware(['checkUserLogin'])->group(function () {
     Route::get('portal/ot', [PortalController::class, 'ot'])->name('portal.ot');
     Route::get('portal/nghi', [PortalController::class, 'nghi'])->name('portal.nghi');
     Route::get('portal/logout', [AuthController::class, 'userLogout'])->name('portal.logout');
-    // Route::get('portal/information', [PortalController::class, 'profile'])->name('portal.infomation');
-
+    Route::get('portal/month-labours', [PortalController::class, 'monthLabour'])->name('portal.labour');
+    Route::get('portal/salary', [PortalController::class, 'salary'])->name('portal.salary');
+    Route::post('portal/month-labours', [PortalController::class, 'monthLabourPost'])->name('portal.month-labour-post');
     Route::post('portal/nghi/register', [PortalController::class, 'postRegisterLeave'])->name('leave.register');
     Route::post('portal/ot/register', [PortalController::class, 'postRegisterOt'])->name('ot.register');
 });
 
 Route::post('admin/login', [AuthController::class, 'postLogin'])->name('admin.postLogin');
 Route::middleware(['checkAdminLogin'])->group(function () {
+    Route::get('/', function(){
+        return view('admin.index');
+    }); 
     Route::get('admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
     Route::get('admin/dashboard', [DepartmentController::class, 'index'])->name('dashboard');
     Route::prefix('organization')->name('organization.')->group(function () {
@@ -95,7 +99,10 @@ Route::middleware(['checkAdminLogin'])->group(function () {
     Route::put('employees/profile/update/{employee}', [EmployeeController::class, 'update'])->name('employees.profile.update');
     
     Route::post('employees/contracts/create/{employee}', [ContractController::class, 'store'])->name('employees.contract.create');
+    Route::get('employees/contracts/edit/{contract}', [ContractController::class, 'edit'])->name('employees.contract.edit');
+    Route::put('employees/contracts/update/{contract}', [ContractController::class, 'update'])->name('employees.contract.update');
     Route::post('employees/working-process/create/{employee}', [WorkingProcessController::class, 'store'])->name('employees.working-process.create');
+    Route::post('employees/salary-process/create/{employee}', [SalaryProcessController::class, 'store'])->name('employees.salary-process.create');
     Route::get('employees/working-process/{employee}', [EmployeeController::class, 'working_process'])->name('employees.working-process');
     Route::get('employees/salary-process/{employee}', [EmployeeController::class, 'salary_process'])->name('employees.salary-process');
     Route::get('process/accept-process', [ProcessController::class, 'index'])->name('process.accept-process');

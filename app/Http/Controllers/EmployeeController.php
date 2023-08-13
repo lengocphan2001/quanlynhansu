@@ -129,7 +129,10 @@ class EmployeeController extends Controller
 
     public function salary_process(Employee $employee){
         $salary_process = SalaryProcess::where('employee_id', $employee->identity)->get();
-        return view('admin.employees.detail.salary_process')->with(['salary_process' => $salary_process, 'employee' => $employee]);
+        $departments = Department::all();
+        $titles = Title::all();
+        $positions = Position::all();
+        return view('admin.employees.detail.salary_process')->with(['salary_process' => $salary_process, 'employee' => $employee, 'departments' => $departments, 'positions' => $positions, 'titles' => $titles]);
     }
 
     public function updateProfile(Employee $employee){
