@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Labour;
 use App\Models\Leave;
 use App\Models\TimeKeeping;
+use App\Models\TotalLabour;
 use App\Models\TotalLeave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -17,8 +18,40 @@ class LabourSalaryController extends Controller
 {
     public function labour()
     {
-        $labours = Labour::all();
-        return view('admin.labour-salary.labour')->with(['labours' => $labours]);
+        $year = date('Y');
+
+        $employee = Employee::all();
+        foreach ($employee as $item) {
+            $identity = $item->identity;
+            for ($i = 1; $i <= 12; $i++) {
+                $count = DB::table('labours')->where('employee_id', '=', $identity)->whereMonth('date', '=', $i)->whereYear('date', '=', $year)->count();
+                $labour = TotalLabour::where([['month', '=', $i], ['employee_id', '=', $identity], ['year', '=', $year]])->first();
+                if (!$labour) {
+                    TotalLabour::create([
+                        'employee_id' => $identity,
+                        'month' => $i,
+                        'year' => $year,
+                        'real_labour' => $count,
+                        'leave_labour' => 0,
+                        'ot_labour' => 0,
+                        'total_labour' => 0
+                    ]);
+                }else{
+                    $labour->update([
+                        'employee_id' => $identity,
+                        'month' => $i,
+                        'year' => $year,
+                        'real_labour' => $count,
+                        'leave_labour' => 0,
+                        'ot_labour' => 0,
+                        'total_labour' => 0
+                    ]);
+                }
+            }
+        }
+
+        $labours = TotalLabour::all();
+        return view('admin.labour-salary.labour')->with(['total_labours' => $labours]);
     }
 
     public function postExcel(Request $request)
@@ -32,17 +65,18 @@ class LabourSalaryController extends Controller
 
     public function salary()
     {
-        $month= date('n');
-
-        $employee = Employee::all();
-        foreach($employee as $item){
-            $identity = $item->identity;
-            $count = DB::table('labours')->where('employee_id', '=', $identity)->whereMonth('date', '=', $month - 1)->count();
-        }
-
-        $labours = Labour::all();
-        return view('admin.labour-salary.salary')->with(['labours' => $labours]);
+        // $labours = TotalLabour::all();
+        return view('admin.labour-salary.salary');
     }
+
+    public function viewSalary(Request $request){
+        // dd($request->all());
+
+        $total_labour = TotalLabour::all();
+        
+    }
+
+
 
 
     public function totalOnLeave()

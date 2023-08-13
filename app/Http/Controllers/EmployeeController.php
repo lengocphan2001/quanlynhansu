@@ -91,7 +91,13 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        //
+        $data = $request->all();
+        // dd($data);
+        $employee->update($data);
+
+        toastr()->success('Chỉnh sửa thành công', 'Thành công');
+
+        return back();
     }
 
     /**
@@ -126,5 +132,11 @@ class EmployeeController extends Controller
         return view('admin.employees.detail.salary_process')->with(['salary_process' => $salary_process, 'employee' => $employee]);
     }
 
-
+    public function updateProfile(Employee $employee){
+        $departments = Department::all();
+        $titles = Title::all();
+        $positions = Position::all();
+        $contract_types = ContractType::all();
+        return view('admin.employees.detail.edit_profile')->with(['employee' => $employee, 'departments' => $departments, 'positions' => $positions, 'titles' => $titles, 'contract_types' => $contract_types]);
+    }
 }

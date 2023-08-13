@@ -84,12 +84,16 @@ Route::middleware(['checkAdminLogin'])->group(function () {
         Route::get('total-on-leave', [LabourSalaryController::class, 'totalOnLeave'])->name('total-on-leave');
         Route::get('salarys', [LabourSalaryController::class, 'salary'])->name('salary');
         Route::post('labours', [LabourSalaryController::class, 'postExcel'])->name('import-labour');
+        Route::post('view-salary', [LabourSalaryController::class, 'viewSalary'])->name('view-salary');
         Route::get('total-on-leave/refresh', [LabourSalaryController::class, 'refreshToTalOnLeave'])->name('total-on-leave-refresh');
     });
     Route::resource('employees', EmployeeController::class);
     Route::get('employee/detail/{employee}', [EmployeeController::class, 'detail'])->name('employees.information');
     // Route::resource('employees/contracts', ContractController::class)
     Route::get('employees/contracts/{employee}', [EmployeeController::class, 'contract'])->name('employees.contract');
+    Route::get('employees/profile/edit/{employee}', [EmployeeController::class, 'updateProfile'])->name('employees.profile.edit');
+    Route::put('employees/profile/update/{employee}', [EmployeeController::class, 'update'])->name('employees.profile.update');
+    
     Route::post('employees/contracts/create/{employee}', [ContractController::class, 'store'])->name('employees.contract.create');
     Route::post('employees/working-process/create/{employee}', [WorkingProcessController::class, 'store'])->name('employees.working-process.create');
     Route::get('employees/working-process/{employee}', [EmployeeController::class, 'working_process'])->name('employees.working-process');

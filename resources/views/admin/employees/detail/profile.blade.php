@@ -26,8 +26,8 @@
                     <div class="card">
                         <h4 class="card-header d-flex justify-content-between">
                             <span class="badge badge-success text-center" style="font-size: 100%">THÔNG TIN CÁ NHÂN</span>
-                            <button type="button" class="btn btn-outline-secondary btn-rounded"
-                                data-mdb-ripple-color="dark">Chỉnh sửa</button>
+                            <a type="button" class="btn btn-outline-secondary btn-rounded" href="{{ route('employees.profile.edit', ['employee' => $employee])}}"
+                                data-mdb-ripple-color="dark">Chỉnh sửa</a>
                         </h4>
                         <div class="card-body">
                             <div class="row">

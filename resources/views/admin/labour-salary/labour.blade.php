@@ -26,18 +26,6 @@
                     <div class="card">
                         <div class="card-header border-0">
                             <div class="d-flex" style="gap: 20xp">
-                                <select class="mr-2 w-25" id="exampleFormControlSelect1">
-                                    <option value="0">CEO Office</option>
-                                    <option value="1">CEO Office</option>
-                                </select>
-                                <input type="date" class="mr-2">
-                                <input type="date" class="mr-2">
-                                <select class="mr-2 w-25" id="exampleFormControlSelect1">
-                                    <option value="0">Chọn nhân viên</option>
-                                    <option value="1">CEO Office</option>
-                                </select>
-                                <button class="btn btn-success mr-2" data-toggle="modal" data-target="#form"
-                                    type="button"><i class="fa fa-search"></i> Tìm kiếm </button>
                                 <button class="btn btn-success" data-toggle="modal" data-target="#form" type="button"><i
                                         class="fa fa-file-excel-o"></i></button>
 
@@ -50,18 +38,22 @@
                                         <thead>
                                             <tr>
                                                 <th>Mã nhân viên</th>
-                                                <th>Ngày chấm công</th>
-                                                <th>Giờ đến</th>
-                                                <th>Giờ về</th>
+                                                <th>Tháng</th>
+                                                <th>Công thực tế</th>
+                                                <th>Công phép</th>
+                                                <th>Tổng giờ OT</th>
+                                                <th>Tổng công</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($labours as $item)
+                                            @foreach ($total_labours as $item)
                                                 <tr>
                                                     <td>{{ $item->employee_id }}</td>
-                                                    <td>{{ $item->date }}</td>
-                                                    <td>{{ $item->start }}</td>
-                                                    <td>{{ $item->end }}</td>
+                                                    <td>{{ $item->month }}</td>
+                                                    <td>{{ $item->real_labour }}</td>
+                                                    <td>{{ $item->leave_labour }}</td>
+                                                    <td>{{ $item->ot_labour }}</td>
+                                                    <td>{{ $item->total_labour }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -121,18 +113,6 @@
                     "infoEmpty": "Không có bản ghi nào",
                     "infoFiltered": "(lọc từ _MAX_ bản ghi)"
                 }
-            });
-            $(document).ready(function() {
-                $('#form').modal({
-                    'show': {{ count($errors) > 0 ? 'true' : 'false' }}
-                });
-            });
-
-            $('.deleteConfirm').click(function(e) {
-                e.preventDefault();
-                var id = $(this).val();
-                $('#id').val(id);
-                $('#deleteDepartment').modal('show');
             });
         });
     </script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Leave;
 use App\Models\TimeKeeping;
+use App\Models\TotalLeave;
 use Illuminate\Http\Request;
 
 class ProcessController extends Controller
@@ -15,6 +16,13 @@ class ProcessController extends Controller
     }
 
     public function acceptLeave(Leave $leave){
+        $total_leave = TotalLeave::where('employee_id', $leave->employee_id)->first();
+
+        $total_leave->update([
+            'remaining' => $total_leave->remaining - $leave->total,
+            'used' => $total_leave->used + $leave->total
+        ]);
+
         $leave->update([
             'status' => 1
         ]);

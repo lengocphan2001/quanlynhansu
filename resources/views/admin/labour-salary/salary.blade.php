@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Tổng hợp công</h1>
+                    <h1 class="m-0">Bảng lương</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -26,20 +26,41 @@
                     <div class="card">
                         <div class="card-header border-0">
                             <div class="d-flex" style="gap: 20xp">
-                                <select class="mr-2 w-25" id="exampleFormControlSelect1">
-                                    <option value="0">CEO Office</option>
-                                    <option value="1">CEO Office</option>
-                                </select>
-                                <input type="date" class="mr-2">
-                                <input type="date" class="mr-2">
-                                <select class="mr-2 w-25" id="exampleFormControlSelect1">
-                                    <option value="0">Chọn nhân viên</option>
-                                    <option value="1">CEO Office</option>
-                                </select>
-                                <button class="btn btn-success mr-2" data-toggle="modal" data-target="#form"
-                                    type="button"><i class="fa fa-search"></i> Tìm kiếm </button>
-                                <button class="btn btn-success" data-toggle="modal" data-target="#form" type="button"><i
-                                        class="fa fa-file-excel-o"></i></button>
+                                <form action="{{ route('labour-salary.view-salary') }}" class="form-inline" method="POST">
+                                    @csrf
+                                    <div class="form-group mr-4">
+                                        <label for="email1" class="mr-1">Tháng</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="month">
+                                            <option value="1">Tháng 1</option>
+                                            <option value="2">Tháng 2</option>
+                                            <option value="3">Tháng 3</option>
+                                            <option value="4">Tháng 4</option>
+                                            <option value="5">Tháng 5</option>
+                                            <option value="6">Tháng 6</option>
+                                            <option value="7">Tháng 7</option>
+                                            <option value="8">Tháng 8</option>
+                                            <option value="9">Tháng 9</option>
+                                            <option value="10">Tháng 10</option>
+                                            <option value="11">Tháng 11</option>
+                                            <option value="12">Tháng 12</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mr-2">
+                                        <label for="email1" class="mr-1">Năm</label>
+                                        <select class="form-control" id="exampleFormControlSelect1" name="year">
+                                            <option value="2020">Năm 2020</option>
+                                            <option value="2021">Năm 2021</option>
+                                            <option value="2022">Năm 2022</option>
+                                            <option value="2023">Năm 2023</option>
+                                            <option value="2024">Năm 2024</option>
+                                            <option value="2025">Năm 2025</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <button class="btn btn-success" type="submit"><i class="fa fa-search"></i>Tính lương</button>
+                                    </div>
+                                </form>
 
                             </div>
                         </div>
@@ -50,20 +71,24 @@
                                         <thead>
                                             <tr>
                                                 <th>Mã nhân viên</th>
-                                                <th>Ngày chấm công</th>
-                                                <th>Giờ đến</th>
-                                                <th>Giờ về</th>
+                                                <th>Tháng</th>
+                                                <th>Công thực tế</th>
+                                                <th>Công phép</th>
+                                                <th>Tổng giờ OT</th>
+                                                <th>Tổng công</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($labours as $item)
+                                            {{-- @foreach ($total_labours as $item)
                                                 <tr>
                                                     <td>{{ $item->employee_id }}</td>
-                                                    <td>{{ $item->date }}</td>
-                                                    <td>{{ $item->start }}</td>
-                                                    <td>{{ $item->end }}</td>
-                                                </tr>
-                                            @endforeach
+                                                    <td>{{ $item->month }}</td>
+                                                    <td>{{ $item->real_labour }}</td>
+                                                    <td>{{ $item->leave_labour }}</td>
+                                                    <td>{{ $item->ot_labour }}</td>
+                                                    <td>{{ $item->total_labour }}</td>
+                                                </tr> --}}
+                                            {{-- @endforeach --}}
                                         </tbody>
                                     </table>
                                 </div>
