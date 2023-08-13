@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('working_processes', function (Blueprint $table) {
             $table->id();
+            $table->string('employee_id');
+            $table->string('old_department');
+            $table->string('new_department');
+            $table->string('old_position');
+            $table->string('new_position');
+            $table->string('old_title');
+            $table->string('new_title');
             $table->timestamps();
         });
     }

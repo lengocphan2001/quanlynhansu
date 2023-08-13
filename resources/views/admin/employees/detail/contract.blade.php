@@ -1,3 +1,6 @@
+@php
+    use App\Models\ContractType;
+@endphp
 @extends('admin.employees.detail.includes.layout')
 @section('content')
     <!-- Content Header (Page header) -->
@@ -25,8 +28,8 @@
                             <div class="d-flex">
                                 <button class="btn btn-success mr-2" data-toggle="modal" data-target="#form"
                                     type="button"><i class="fa fa-plus mr-2"></i> Thêm mới </button>
-                                <button class="btn btn-danger deleteConfirm" type="button"><i
-                                        class="fa fa-close mr-1"></i> Xóa quá trình </button>
+                                <button class="btn btn-danger deleteConfirm" type="button"><i class="fa fa-close mr-1"></i>
+                                    Xóa quá trình </button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -35,30 +38,22 @@
                                     <table id="myTable" class="stripe cell-border hover">
                                         <thead>
                                             <tr>
-                                                <th>STT</th>
                                                 <th>Số hợp đồng</th>
                                                 <th>Loại hợp đồng</th>
                                                 <th>Ngày bắt đầu</th>
                                                 <th>Ngày kết thúc</th>
-                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
-
-                                                <td>
-                                                    <a href="" class="btn btn-primary mr-3"
-                                                        style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger delete">
-                                                        <i class="bx bx-trash"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            @foreach ($contracts as $item)
+                                                <tr>
+                                                    <td>{{ $item->contract_number }}</td>
+                                                    <td>{{ ContractType::where('identity', $item->contract_number)->first()->name ?? 'Chưa có' }}
+                                                    </td>
+                                                    <td>{{ $item->contract_start }}</td>
+                                                    <td>{{ $item->contract_end }}</td>
+                                                </tr>
+                                            @endforeach
 
                                         </tbody>
                                     </table>
@@ -105,27 +100,31 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form>
-
+                    <form action="{{ route('employees.contract.create', ['employee' => $employee]) }}" method="POST">
+                        @csrf
                         <div class="modal-body">
                             <h4>Thông tin chung</h4>
                             <div class="form-group">
                                 <label for="email1">Loại hợp đồng</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option value="Loại 1">1</option>
+                                <select class="form-control" id="exampleFormControlSelect1" name="contract_type">
+                                    <option value="0">Chưa có</option>
+                                    @foreach ($contract_types as $item)
+                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
+                                    @endforeach
+
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Số hợp đồng</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="contract_number">
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Ngày ký kết</label>
-                                <input type="date" name="start_working_date" class="form-control">
+                                <input type="date" class="form-control" name="contract_start">
                             </div>
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Ngày hết hạn</label>
-                                <input type="date" name="start_working_date" class="form-control">
+                                <input type="date" name="contract_end" class="form-control">
                             </div>
                         </div>
                         <div class="modal-footer border-top-0 d-flex bg-light justify-content-end">

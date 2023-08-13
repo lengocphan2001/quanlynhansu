@@ -13,6 +13,7 @@ use App\Models\Shift;
 use App\Models\TimeKeeping;
 use App\Models\Title;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat\BaseFormatter;
 use Ramsey\Uuid\Type\Time;
 
 class CategoryController extends Controller
@@ -34,6 +35,20 @@ class CategoryController extends Controller
         toastr()->success('Thêm chức danh thành công', 'Thành công');
         return back();
     }
+    public function updateTitle(Request $request){
+        $data = $request->all();
+
+        $title = Title::where('identity', $data['old_identity'])->first();
+
+        $title->update([
+            'name' => $data['name'],
+            'identity' => $data['identity'],
+            'english_name' => $data['english_name']
+        ]);
+        toastr()->success('Cập nhật thành công', 'Thành công');
+
+        return back();
+    }
 
 
     public function destroy(Request $request){
@@ -42,6 +57,8 @@ class CategoryController extends Controller
         toastr()->success('Xóa chức danh thành công', 'Thành công');
         return back();
     }
+
+
 
     public function calamviec(){
         $titles = BaseShift::all();
@@ -55,6 +72,19 @@ class CategoryController extends Controller
         toastr()->success('Thêm ca làm việc thành công', 'Thành công');
         return back();
     }
+
+    public function updateCLV(Request $request){
+        $data = $request->all();
+
+        $title = BaseShift::where('identity', $data['old_identity'])->first();
+
+        $title->update($data);
+        toastr()->success('Cập nhật thành công', 'Thành công');
+
+        return back();
+    }
+
+
 
     public function destroyCLV(Request $request){
         $title = BaseShift::where('id', $request->get('id'))->first();
@@ -72,6 +102,20 @@ class CategoryController extends Controller
         BaseTimeKeeping::create($data);
 
         toastr()->success('Thêm loại chấm công thành công', 'Thành công');
+        return back();
+    }
+
+    public function updateLCC(Request $request){
+        $data = $request->all();
+
+        $base_tk = BaseTimeKeeping::where('identity', $data['old_identity'])->first();
+
+        $base_tk->update([
+            'name' => $data['name'],
+            'identity' => $data['identity']
+        ]);
+        toastr()->success('Cập nhật thành công', 'Thành công');
+
         return back();
     }
 
@@ -97,6 +141,21 @@ class CategoryController extends Controller
         ]);
 
         toastr()->success('Thêm loại hợp đồng thành công', 'Thành công');
+        return back();
+    }
+
+    public function updateLHD(Request $request){
+        $data = $request->all();
+
+        $title = ContractType::where('identity', $data['old_identity'])->first();
+
+        $title->update([
+            'name' => $data['name'],
+            'identity' => $data['identity'],
+            'english_name' => $data['english_name']
+        ]);
+        toastr()->success('Cập nhật thành công', 'Thành công');
+
         return back();
     }
 

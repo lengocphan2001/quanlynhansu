@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
+use App\Models\Contract;
 use App\Models\ContractType;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Position;
+use App\Models\SalaryProcess;
 use App\Models\Title;
 use App\Models\TotalLeave;
+use App\Models\WorkingProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -53,6 +56,14 @@ class EmployeeController extends Controller
                     'remaining' => $diff,
                     'used' => 0
                 ]);
+
+                Contract::create([
+                    'employee_id' => $employee->identity,
+                    'contract_type' => $employee->contract_type,
+                    'contract_number' => $employee->contract_number,
+                    'contract_start' => $employee->contract_start,
+                    'contract_end' => $employee->contract_end
+                ]);
                 toastr()->success('Thêm nhân viên thành công', 'Thành công');
                 return redirect(route('employees.index'));
             case 'save-add':
@@ -65,7 +76,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        return view('admin.employees.detail.profile')->with(['employee' => $employee]);
+        return view('admin.employees.detail.includes.layout')->with(['employee' => $employee]);
     }
 
     /**
@@ -90,4 +101,30 @@ class EmployeeController extends Controller
     {
         //
     }
+
+    public function detail(Employee $employee){
+        return view('admin.employees.detail.profile')->with(['employee' => $employee]);
+    }
+
+    public function contract(Employee $employee){
+        $contract_types = ContractType::all();
+        $contracts = Contract::where('employee_id', $employee->identity)->get();
+        return view('admin.employees.detail.contract')->with(['contracts' => $contracts, 'employee' => $employee, 'contract_types' => $contract_types]);
+    }
+
+    public function working_process(Employee $employee){
+        $departments = Department::all();
+        $titles = Title::all();
+        $positions = Position::all();
+
+        $working_process = WorkingProcess::where('employee_id', $employee->identity)->get();
+        return view('admin.employees.detail.working_process')->with(['working_process' => $working_process, 'employee' => $employee, 'departments' => $departments, 'positions' => $positions, 'titles' => $titles]);
+    }
+
+    public function salary_process(Employee $employee){
+        $salary_process = SalaryProcess::where('employee_id', $employee->identity)->get();
+        return view('admin.employees.detail.salary_process')->with(['salary_process' => $salary_process, 'employee' => $employee]);
+    }
+
+
 }

@@ -25,6 +25,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header border-0">
+                            <h3>Duyệt đăng ký nghỉ</h3>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -33,11 +34,13 @@
                                         <thead>
                                             <tr>
                                                 <th>Họ và tên</th>
-                                                <th>Trạng thái</th>
                                                 <th>Ngày lập</th>
                                                 <th>Ngày bắt đầu</th>
                                                 <th>Ngày kết thúc</th>
                                                 <th>Số ngày nghỉ</th>
+                                                <th>
+                                                    Hành động
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -47,20 +50,66 @@
                                                 @endphp
                                                 <tr>
                                                     <td>{{ $employee->fullname }}</td>
-
-                                                    <td>
-                                                        @if ($item->status)
-                                                            <span class="badge badge-primary">Đã duyệt</span>
-                                                        @else
-                                                            <span class="badge badge-danger">Chưa được duyệt</span>
-                                                        @endif
-                                                    </td>
                                                     <td>
                                                         {{ $item->created_at }}
                                                     </td>
                                                     <td>{{ $item->start }}</td>
                                                     <td>{{ $item->end }}</td>
                                                     <td>{{ $item->total }}</td>
+                                                    <td>
+                                                        <a href="{{ route('leaves.accept', ['leave' => $item]) }}"
+                                                            class="btn btn-success mr-3" style="margin-right: 10px;"><i
+                                                                class="fa fa-calendar-check-o"></i></a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h3>Duyệt đăng ký OT</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <table id="myTable2" class="stripe cell-border hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Họ và tên</th>
+                                                <th>Ngày lập</th>
+                                                <th>Ngày đăng ký</th>
+                                                <th>Giờ bắt đầu</th>
+                                                <th>Giờ kết thúc</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($ots as $item)
+                                                @php
+                                                    $employee = Employee::where('identity', $item->employee_id)->first();
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $employee->fullname }}</td>
+                                                    <td>
+                                                        {{ $item->date }}
+                                                    </td>
+                                                    <td>{{ $item->start }}</td>
+                                                    <td>{{ $item->end }}</td>
+                                                    <td>{{ $item->total }}</td>
+                                                    <td>
+                                                        <a href="{{ route('ots.accept', ['ot' => $item]) }}"
+                                                            class="btn btn-success mr-3" style="margin-right: 10px;"><i
+                                                                class="fa fa-calendar-check-o"></i></a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -149,6 +198,15 @@
         $(document).ready(function() {
             jQuery.noConflict();
             $('#myTable').DataTable({
+                "language": {
+                    "lengthMenu": "Hiện _MENU_ bản ghi trên trang",
+                    "zeroRecords": "Không có bản ghi nào",
+                    "info": "Hiện trang _PAGE_ trong tổng số _PAGES_ trang",
+                    "infoEmpty": "Không có bản ghi nào",
+                    "infoFiltered": "(lọc từ _MAX_ bản ghi)"
+                }
+            });
+            $('#myTable2').DataTable({
                 "language": {
                     "lengthMenu": "Hiện _MENU_ bản ghi trên trang",
                     "zeroRecords": "Không có bản ghi nào",

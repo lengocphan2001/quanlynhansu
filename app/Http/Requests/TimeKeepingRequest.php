@@ -22,8 +22,8 @@ class TimeKeepingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'identity' => 'required|unique:time_keepings,identity|min:3',
-            'name' => 'required|unique:time_keepings,name|min:6',
+            'identity' => 'required|unique:base_time_keepings,identity|min:3',
+            'name' => 'required|unique:base_time_keepings,name|min:6',
         ];
     }
 

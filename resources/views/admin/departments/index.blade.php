@@ -1,5 +1,6 @@
 @php
     use App\Models\Department;
+    use App\Models\Employee;
 @endphp
 @extends('admin.index')
 @section('content')
@@ -59,7 +60,7 @@
                                                     <td>{{ $item->name }}</td>
                                                     <td>{{ $item->parent_id == 0 ? 'Phòng ban cha' : Department::where('id', $item->parent_id)->first()->name }}
                                                     </td>
-                                                    <td>{{ $item->manager_id ?? 'Chưa có' }}</td>
+                                                    <td>{{ Employee::where('id', $item->manager_id)->first()->fullname ?? 'Chưa có' }}</td>
                                                     <td>
                                                         @if ($item->status == 0)
                                                             <span class="badge badge-pill badge-danger">Đã xóa/giải
@@ -165,7 +166,7 @@
                                 <label for="password1">Quản lý</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="manager_id">
                                     @foreach ($managers as $item)
-                                        <option value="{{ $item->identity }}">{{ $item->fullname }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->fullname }}</option>
                                     @endforeach
                                 </select>
                             </div>

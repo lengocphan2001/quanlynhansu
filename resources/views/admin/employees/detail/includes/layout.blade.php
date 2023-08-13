@@ -60,7 +60,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
+                            <a href="{{ route('employees.information', ['employee' => $employee]) }}" class="nav-link {{ Request::is('/') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     01. Thông tin tổng quan

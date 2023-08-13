@@ -11,13 +11,15 @@ class AuthController extends Controller
         return view('admin.auth.login');
     }
 
-    public function postLogin(Request $request){
+    public function postLogin(Request $request)
+    {
         $data = $request->except(['_token']);
+        $user = Auth::guard('web')->user();
 
-        if (Auth::guard('admin')->attempt(['email' => $data['email'], 'password' => $data['password']])){
+        if (Auth::guard('admin')->attempt(['email' => $data['email'], 'password' => $data['password']])) {
             toastr()->success('Đăng nhập thành công', 'Thành công');
             return redirect(route('employees.index'));
-        }else{
+        } else {
             toastr()->error('Tài khoản hoặc mật khẩu không chính xác', 'Thất bại');
             return back()->withInput();
         }
@@ -39,7 +41,7 @@ class AuthController extends Controller
 
         if (Auth::guard('web')->attempt(['email' => $data['email'], 'password' => $data['password']])){
             toastr()->success('Đăng nhập thành công', 'Thành công');
-            return redirect(route('dashboard'));
+            return redirect(route('portal.infomation'));
         }else{
             toastr()->error('Tài khoản hoặc mật khẩu không chính xác', 'Thất bại');
             return back()->withInput();
@@ -51,4 +53,6 @@ class AuthController extends Controller
         toastr()->success('Đăng xuất thành công', 'Thành công');
         return redirect(route('user.login'));
     }
+
+
 }

@@ -11,9 +11,8 @@ class ContractController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        
     }
 
     /**
@@ -27,9 +26,21 @@ class ContractController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Employee $employee)
     {
-        //
+        $data = $request->except(['_token']);
+
+        Contract::create([
+            'employee_id' => $employee->identity,
+            'contract_type' => $data['contract_type'],
+            'contract_number' => $data['contract_number'],
+            'contract_start' => $data['contract_start'],
+            'contract_end' => $data['contract_end']
+        ]);
+
+        toastr()->success('Thêm quá trình hợp đồng thành công', 'Thành công');
+
+        return back();
     }
 
     /**
@@ -37,8 +48,6 @@ class ContractController extends Controller
      */
     public function show(Employee $employee)
     {
-        $contracts = Contract::where('employee_id',  $employee->identity)->get();
-        return view('admin.employees.detail.contract')->with(['contracts' => $contracts, 'employee' => $employee]);
     }
 
     /**

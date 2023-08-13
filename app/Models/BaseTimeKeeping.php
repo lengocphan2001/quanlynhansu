@@ -9,6 +9,8 @@ class BaseTimeKeeping extends Model
 {
     use HasFactory;
 
+    protected $table = 'base_time_keepings';
+
     protected $fillable = [
         'name',
         'identity'

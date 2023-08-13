@@ -45,6 +45,18 @@
                                                 @endif
                                             </div>
 
+                                            <div class="form-group">
+                                                <label for="password1">Mã phòng ban</label>
+                                                <input type="text" class="form-control" id="password1"
+                                                    placeholder="Tên phòng ban" name="identity"
+                                                    value="{{ $department->identity }}">
+                                                @if ($errors->has('identity'))
+                                                    <div class='text-danger'>
+                                                        * {{ $errors->first('identity') }}
+                                                    </div>
+                                                @endif
+                                            </div>
+
 
                                             <div class="form-group">
                                                 <label for="email1">Phòng ban cha</label>
@@ -63,11 +75,9 @@
                                                 <label for="password1">Quản lý</label>
                                                 <select class="form-control" id="exampleFormControlSelect1"
                                                     name="manager_id">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
+                                                    @foreach ($managers as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->fullname }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

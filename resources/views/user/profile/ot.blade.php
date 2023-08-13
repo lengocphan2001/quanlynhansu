@@ -34,36 +34,27 @@
                                         <th>Giờ bắt đầu</th>
                                         <th>Giờ kết thúc</th>
                                         <th>Tổng số phút</th>
-                                        <th>Người duyệt</th>
+                                        <th>Trạng thái</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($departments as $item) --}}
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
+                                    @foreach ($time_keepings as $item)
+                                        <tr>
+                                            <td>{{ $item->date }}</td>
+                                            <td>{{ $item->start }}</td>
 
-                                        <td></td>
-                                        <td>
-                                            {{-- @if ($item->status == 0)
-                                                    <span class="badge badge-pill badge-danger">Đã xóa/giải
-                                                        thể</span>
+                                            <td>{{ $item->end }}</td>
+                                            <td>{{ $item->total }}</td>
+                                            <td>
+                                                @if ($item->status == 0)
+                                                    <span class="badge badge-pill badge-danger">Chưa được duyệt</span>
                                                 @else
-                                                    <span class="badge badge-pill badge-success">Hoạt động</span>
-                                                @endif --}}
-                                        </td>
-                                        <td>
-                                            {{-- <a href="{{ route('organization.departments.edit', ['department' => $item]) }}"
-                                                    class="btn btn-primary mr-3" style="margin-right: 10px;"><i
-                                                        class="bx bx-pencil"></i></a>
-                                                <button class="btn btn-danger deleteConfirm"
-                                                    value="{{ $item->id }}" type="button">
-                                                    <i class="bx bx-trash"></i>
-                                                </button> --}}
-                                        </td>
-                                    </tr>
-                                    {{-- @endforeach --}}
+                                                    <span class="badge badge-pill badge-success">Đã duyệt</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
                                 </tbody>
                             </table>
@@ -85,45 +76,30 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-warning alert-dismissible text-white" role="alert">
-                        <span class="text-sm">A simple danger alert with</span>
-                        <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert"
-                            aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <form role="form" method="POST">
+                    <form role="form" method="POST" action="{{ route('ot.register') }}">
+                        @csrf
                         <label for="email" class="font-weight-bold">Ngày đăng ký</label>
                         <div class="input-group input-group-outline my-1">
-                            <input type="date" class="form-control" id="email">
+                            <input type="date" class="form-control" id="email" name="date">
                         </div>
-                        <label for="email" class="font-weight-bold">Giờ đăng ký</label>
+
+                        <label for="email1">Giờ đến</label>
                         <div class="input-group input-group-outline my-1">
-                            <input type="date" class="form-control" id="email">
+                            <input id="timepicker_start" class="form-control" name="start" id="start" />
                         </div>
-
-                        <label for="email" class="font-weight-bold">Giờ kết thúc</label>
+                        <label for="email1">Giờ đến</label>
                         <div class="input-group input-group-outline my-1">
-                            <input type="date" class="form-control" id="email">
+                            <input id="timepicker_start" class="form-control" name="end" id="end" />
                         </div>
-
-                        <label for="email" class="font-weight-bold">Giờ kết thúc</label>
-                        <div class='input-group date input-group-outline my-1' id='datetimepicker3'>
-                            <input type='text' class="form-control" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-time"></span>
-                            </span>
-                        </div>
-
                         <label for="email" class="font-weight-bold">Tổng số giờ</label>
                         <div class="input-group input-group-outline my-1">
-                            <input type="number" class="form-control" id="email">
+                            <input type="number" class="form-control" id="email" name="total">
                         </div>
 
                         <div class="modal-footer mt-3">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                 style="text-transform: none">Đóng</button>
-                            <button type="button" class="btn btn-primary" style="text-transform: none">Tạo mới</button>
+                            <button type="submit" class="btn btn-primary" style="text-transform: none">Tạo mới</button>
                         </div>
                     </form>
                 </div>
@@ -153,9 +129,20 @@
                     'show': {{ count($errors) > 0 ? 'true' : 'false' }}
                 });
                 $('#datetimepicker3').timepicker({
-                 format: 'LT'
-             });
+                    format: 'LT'
+                });
+
             });
+            // $('#timepicker_start').timepicker({
+            //     timeFormat: 'HH:mm',
+            //     showMeridian: false,
+            //     zindex: 9999999
+            // });
+            // $('#timepicker_end').timepicker({
+            //     timeFormat: 'HH:mm',
+            //     showMeridian: false,
+            //     zindex: 9999999
+            // });
         });
     </script>
 @endsection

@@ -6,9 +6,11 @@ use App\Imports\ImportLabour;
 use App\Models\Employee;
 use App\Models\Labour;
 use App\Models\Leave;
+use App\Models\TimeKeeping;
 use App\Models\TotalLeave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class LabourSalaryController extends Controller
@@ -30,7 +32,16 @@ class LabourSalaryController extends Controller
 
     public function salary()
     {
-        return view('admin.labour-salary.salary');
+        $month= date('n');
+
+        $employee = Employee::all();
+        foreach($employee as $item){
+            $identity = $item->identity;
+            $count = DB::table('labours')->where('employee_id', '=', $identity)->whereMonth('date', '=', $month - 1)->count();
+        }
+
+        $labours = Labour::all();
+        return view('admin.labour-salary.salary')->with(['labours' => $labours]);
     }
 
 
@@ -67,6 +78,7 @@ class LabourSalaryController extends Controller
 
     public function timeKeeping()
     {
-        return view('admin.labour-salary.ot');
+        $ots = TimeKeeping::all();
+        return view('admin.labour-salary.ot')->with(['ots' => $ots]);
     }
 }

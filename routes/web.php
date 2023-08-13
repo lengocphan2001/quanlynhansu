@@ -8,6 +8,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LabourSalaryController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\ProcessController;
 use App\Http\Controllers\SalaryProcessController;
 use App\Http\Controllers\WorkingProcessController;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('admin/dashboard', function(){
 
+});
 
 Route::get('admin/login', function () {
     return view('admin.auth.login');
@@ -41,16 +44,15 @@ Route::middleware(['checkUserLogin'])->group(function () {
     Route::get('portal/nghi', [PortalController::class, 'nghi'])->name('portal.nghi');
     Route::get('portal/logout', [AuthController::class, 'userLogout'])->name('portal.logout');
     // Route::get('portal/information', [PortalController::class, 'profile'])->name('portal.infomation');
-    Route::get('/', function () {
-        return view('user.profile.nghi');
-    })->name('dashboard');
 
     Route::post('portal/nghi/register', [PortalController::class, 'postRegisterLeave'])->name('leave.register');
+    Route::post('portal/ot/register', [PortalController::class, 'postRegisterOt'])->name('ot.register');
 });
 
 Route::post('admin/login', [AuthController::class, 'postLogin'])->name('admin.postLogin');
 Route::middleware(['checkAdminLogin'])->group(function () {
     Route::get('admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
+    Route::get('admin/dashboard', [DepartmentController::class, 'index'])->name('dashboard');
     Route::prefix('organization')->name('organization.')->group(function () {
         Route::resource('departments', DepartmentController::class)->except('destroy');
         Route::resource('positions', PositionController::class)->except('destroy');
@@ -60,15 +62,19 @@ Route::middleware(['checkAdminLogin'])->group(function () {
             Route::get('chucdanh', [CategoryController::class, 'chucdanh'])->name('chucdanh');
             Route::post('chucdanh/them', [CategoryController::class, 'themChucDanh'])->name('chucdanh.themmoi');
             Route::post('chucdanh/xoa', [CategoryController::class, 'destroy'])->name('chucdanh.xoa');
+            Route::post('chucdanh/chinhsua', [CategoryController::class, 'updateTitle'])->name('chucdanh.chinhsua');
             Route::get('calamviec', [CategoryController::class, 'calamviec'])->name('calamviec');
             Route::post('calamviec/them', [CategoryController::class, 'themCaLamViec'])->name('calamviec.themmoi');
             Route::post('calamviec/xoa', [CategoryController::class, 'destroyCLV'])->name('calamviec.xoa');
+            Route::post('calamviec/chinhsua', [CategoryController::class, 'updateCLV'])->name('calamviec.chinhsua');
             Route::get('loaihopdong', [CategoryController::class, 'loaihopdong'])->name('loaihopdong');
             Route::post('loaihopdong/them', [CategoryController::class, 'themLoaiHopDong'])->name('loaihopdong.themmoi');
             Route::post('loaihopdong/xoa', [CategoryController::class, 'destroyLHD'])->name('loaihopdong.xoa');
+            Route::post('loaihopdong/chinhsua', [CategoryController::class, 'updateLHD'])->name('loaihopdong.chinhsua');
             Route::get('loaichamcong', [CategoryController::class, 'loaichamcong'])->name('loaichamcong');
             Route::post('loaichamcong/them', [CategoryController::class, 'themLoaiChamCong'])->name('loaichamcong.themmoi');
             Route::post('loaichamcong/xoa', [CategoryController::class, 'destroyLCC'])->name('loaichamcong.xoa');
+            Route::post('loaichamcong/chinhsua', [CategoryController::class, 'updateLCC'])->name('loaichamcong.chinhsua');
         });
     });
     Route::prefix('labour-salary')->name('labour-salary.')->group(function () {
@@ -81,8 +87,14 @@ Route::middleware(['checkAdminLogin'])->group(function () {
         Route::get('total-on-leave/refresh', [LabourSalaryController::class, 'refreshToTalOnLeave'])->name('total-on-leave-refresh');
     });
     Route::resource('employees', EmployeeController::class);
+    Route::get('employee/detail/{employee}', [EmployeeController::class, 'detail'])->name('employees.information');
     // Route::resource('employees/contracts', ContractController::class)
-    Route::get('employees/contracts/{employee}', [ContractController::class, 'show'])->name('employees.contract');
-    Route::resource('employees/salary-process', SalaryProcessController::class);
-    Route::resource('employees/working-process', WorkingProcessController::class);
+    Route::get('employees/contracts/{employee}', [EmployeeController::class, 'contract'])->name('employees.contract');
+    Route::post('employees/contracts/create/{employee}', [ContractController::class, 'store'])->name('employees.contract.create');
+    Route::post('employees/working-process/create/{employee}', [WorkingProcessController::class, 'store'])->name('employees.working-process.create');
+    Route::get('employees/working-process/{employee}', [EmployeeController::class, 'working_process'])->name('employees.working-process');
+    Route::get('employees/salary-process/{employee}', [EmployeeController::class, 'salary_process'])->name('employees.salary-process');
+    Route::get('process/accept-process', [ProcessController::class, 'index'])->name('process.accept-process');
+    Route::get('process/accept-process/leave/accept/{leave}', [ProcessController::class, 'acceptLeave'])->name('leaves.accept');
+    Route::get('process/accept-process/time-keeping/accept/{ot}', [ProcessController::class, 'acceptOt'])->name('ots.accept');
 });

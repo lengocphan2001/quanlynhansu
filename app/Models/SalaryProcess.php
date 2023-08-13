@@ -9,6 +9,13 @@ class SalaryProcess extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'identity_id',
+        'employee_id',
+        'decision_number',
+        'decision_date',
+        'date_use',
+        'department',
+        'position',
+        'salary',
+        'total'
     ];
 }

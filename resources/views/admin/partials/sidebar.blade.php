@@ -141,14 +141,14 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="pages/UI/general.html" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Phân quyền người dùng</p>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
-                            <a href="pages/UI/icons.html" class="nav-link">
+                            <a href="{{ route('process.accept-process') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Xây dựng quy trình</p>
                             </a>

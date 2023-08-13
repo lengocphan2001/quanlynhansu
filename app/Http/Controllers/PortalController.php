@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Leave;
 use App\Models\Notification;
+use App\Models\TimeKeeping;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,8 @@ class PortalController extends Controller
     }
 
     public function ot(){
-        return view('user.profile.ot');
+        $time_keepings = TimeKeeping::where('employee_id', Auth::guard('web')->user()->identity)->get();
+        return view('user.profile.ot')->with(['time_keepings' => $time_keepings]);
     }
 
     public function nghi(){
@@ -52,7 +54,30 @@ class PortalController extends Controller
     }
 
     public function postRegisterOT(Request $request){
-        
+        TimeKeeping::create([
+            'employee_id' => Auth::guard('web')->user()->identity,
+            'date' => $request->get('date'),
+            'start' => $request->get('start'),
+            'end' => $request->get('end'),
+            'total' => $request->get('total'),
+            'status' => 0
+        ]);
+
+        $department = Department::where('name', Auth::guard('web')->user()->department)->first();
+        if($department){
+            $manager = User::where('id', $department->manager_id)->first();
+
+            if ($manager){
+                Notification::create([
+                    'manager_id' => $manager->id,
+                    'message' => 'Bạn có đơn xin OT từ ' . Auth::guard('web')->user()->fullname
+                ]);
+            }
+        }
+
+        toastr()->success('Thêm đơn OT thành công', 'Thành công');
+
+        return back();
     }
 
     

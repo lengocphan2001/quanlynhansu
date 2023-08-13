@@ -59,18 +59,18 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($leaves as $item)
-                                    <tr>
-                                        <td>{{ $item->start }}</td>
-                                        <td>{{ $item->end }}</td>
-                                        <td>{{ $item->total }}</td>
-                                        <td>
-                                            @if ($item->status)
-                                                <span class="badge badge-primary">Đã duyệt</span>
-                                            @else
-                                                <span class="badge badge-danger">Chưa được duyệt</span>
-                                            @endif
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>{{ $item->start }}</td>
+                                            <td>{{ $item->end }}</td>
+                                            <td>{{ $item->total }}</td>
+                                            <td>
+                                                @if ($item->status)
+                                                    <span class="badge badge-primary">Đã duyệt</span>
+                                                @else
+                                                    <span class="badge badge-danger">Chưa được duyệt</span>
+                                                @endif
+                                            </td>
+                                        </tr>
                                     @endforeach
 
                                 </tbody>

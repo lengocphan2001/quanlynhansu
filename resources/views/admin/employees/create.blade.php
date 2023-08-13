@@ -174,7 +174,7 @@
                                                 <select name="department" id="">
                                                     <option value="Chưa có">Chưa có</option>
                                                     @foreach ($departments as $item)
-                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -185,7 +185,7 @@
                                                 <select name="position" id="">
                                                     <option value="Chưa có">Chưa có</option>
                                                     @foreach ($positions as $item)
-                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -194,7 +194,7 @@
                                                 <select name="title" id="">
                                                     <option value="Chưa có">Chưa có</option>
                                                     @foreach ($titles as $item)
-                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -212,7 +212,7 @@
                                                 <select name="contract_type" id="">
                                                     <option value="chưa có">Chưa có</option>
                                                     @foreach ($contract_types as $item)
-                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

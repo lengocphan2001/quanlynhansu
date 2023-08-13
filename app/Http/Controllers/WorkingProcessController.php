@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Models\WorkingProcess;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,10 @@ class WorkingProcessController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $working_process = WorkingProcess::where('employee_id', $id)->get();
+        return view('admin.employees.detail.contract')->with(['working_process' => $working_process]);
     }
 
     /**
@@ -26,9 +28,20 @@ class WorkingProcessController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Employee $employee)
     {
-        //
+        WorkingProcess::create([
+            'employee_id' => $employee->identity,
+            'old_department' => $request->get('old_department'),
+            'old_position' => $request->get('old_position'),
+            'old_title' => $request->get('old_title'),
+            'new_department' => $request->get('new_department'),
+            'new_position' => $request->get('new_position'),
+            'new_title' => $request->get('new_title'),
+        ]);
+
+        toastr()->success('Thêm diễn biến công việc thành công', 'Thành công');
+        return back();
     }
 
     /**

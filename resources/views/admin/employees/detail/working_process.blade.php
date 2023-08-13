@@ -1,3 +1,8 @@
+@php
+    use App\Models\Department;
+     use App\Models\Position;
+      use App\Models\Title;
+@endphp
 @extends('admin.employees.detail.includes.layout')
 @section('content')
     <!-- Content Header (Page header) -->
@@ -35,9 +40,6 @@
                                     <table id="myTable" class="stripe cell-border hover">
                                         <thead>
                                             <tr>
-                                                <th>STT</th>
-                                                <th>Ngày hiệu lực</th>
-                                                <th>Ngày hết hạn</th>
                                                 <th>Phòng ban cũ</th>
                                                 <th>Vị trí công việc cũ</th>
                                                 <th>Chức danh cũ</th>
@@ -47,23 +49,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($working_process as $item)
+                                                
+                                            
                                             <tr>
-                                                <td>1</td>
-                                                <td>Director cum Head of Back Office</td>
-                                                <td>PB1</td>
-                                                <td>Lê Ngọc Phan</td>
-                                                <td>Head of department</td>
-                                                <td>Vị trí công việc cũ</td>
-                                                <td>Chức danh cũ</td>
-                                                <td>Phòng ban mới</td>
-                                                <td>
-                                                    <a href="" class="btn btn-primary mr-3"
-                                                        style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger delete">
-                                                        <i class="bx bx-trash"></i>
-                                                    </a>
-                                                </td>
+                                                <td>{{ Department::where('identity', $item->old_department)->first()->name ?? 'Chưa có'}}</td>
+                                                <td>{{ Position::where('identity', $item->old_position)->first()->name ?? 'Chưa có'}}</td>
+                                                <td>{{ Title::where('identity', $item->old_title)->first()->name ?? 'Chưa có'}}</td>
+                                                <td>{{ Department::where('identity', $item->new_department)->first()->name ?? 'Chưa có'}}</td>
+                                                <td>{{ Position::where('identity', $item->new_position)->first()->name ?? 'Chưa có'}}</td>
+                                                <td>{{ Title::where('identity', $item->new_title)->first()->name ?? 'Chưa có'}}</td>
                                             </tr>
+                                            @endforeach
 
                                         </tbody>
                                     </table>
@@ -110,54 +107,63 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form>
-
+                    <form action="{{ route('employees.working-process.create', ['employee' => $employee]) }}" method="POST">
+                        @csrf
                         <div class="modal-body">
                             <h4>Thông tin chung</h4>
-                            <div class="form-group">
-                                <label for="email1">Ngày hiệu lực</label>
-                                <input type="date" class="form-control">
-                                
-                            </div>
-                             <div class="form-group">
-                                <label for="email1">Ngày hết hạn</label>
-                                <input type="date" class="form-control">
-                            </div>
 
                             <div class="form-group">
                                 <label for="email1">Phòng ban cũ</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option value="Phòng ban 1">PB1</option>
+                                <select class="form-control" id="exampleFormControlSelect1" name="old_department">
+                                    <option value="0">Chưa có</option>
+                                    @foreach ($departments as $item)
+                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="email1">Vị trí công việc cũ</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option value="Loại 1">P1</option>
+                                <select class="form-control" id="exampleFormControlSelect1" name="old_position">
+                                    <option value="0">Chưa có</option>
+                                    @foreach ($positions as $item)
+                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="email1">Chức danh cũ</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option value="Loại 1">CD1</option>
+                                <select class="form-control" id="exampleFormControlSelect1" name="old_title">
+                                    <option value="0">Chưa có</option>
+                                    @foreach ($titles as $item)
+                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="email1">Phòng ban mới</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option value="Phòng ban 1">PB1</option>
+                                <select class="form-control" id="exampleFormControlSelect1" name="new_department">
+                                    <option value="0">Chưa có</option>
+                                    @foreach ($departments as $item)
+                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="email1">Vị trí công việc mới</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option value="Loại 1">P1</option>
+                                <select class="form-control" id="exampleFormControlSelect1" name="new_position">
+                                    <option value="0">Chưa có</option>
+                                    @foreach ($positions as $item)
+                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="email1">Chức danh mới</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option value="Loại 1">CD1</option>
+                                <select class="form-control" id="exampleFormControlSelect1" name="new_title">
+                                    <option value="0">Chưa có</option>
+                                    @foreach ($titles as $item)
+                                        <option value="{{ $item->identity }}">{{ $item->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

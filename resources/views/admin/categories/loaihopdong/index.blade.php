@@ -50,8 +50,10 @@
                                                     <td>{{ $item->english_name }}</td>
 
                                                     <td>
-                                                        <a href="" class="btn btn-primary mr-3"
-                                                            style="margin-right: 10px;"><i class="bx bx-pencil"></i></a>
+                                                        <button class="btn btn-primary mr-3 update_modal"
+                                                            data-toggle="modal" data-id="{{ $item }}"
+                                                            data-target="#modal-lg" style="margin-right: 10px;"><i
+                                                                class="bx bx-pencil"></i></button>
                                                         <button class="btn btn-danger deleteConfirm"
                                                             value="{{ $item->id }}" type="button">
                                                             <i class="bx bx-trash"></i>
@@ -78,13 +80,13 @@
                         @csrf
                         <input type="text" name="id" value="" id="id" hidden>
                         <div class="modal-header">
-                            <h5 class="modal-title">Xóa chức danh</h5>
+                            <h5 class="modal-title">Xóa loại hợp đồng</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            Bạn có muốn xóa chức danh này <span id="modal-category_name"></span>?
+                            Bạn có muốn xóa loại hợp đồng này <span id="modal-category_name"></span>?
                             <input type="hidden" id="category" name="category_id">
                         </div>
                         <div class="modal-footer">
@@ -154,6 +156,52 @@
             </div>
         </div>
     </div>
+    <div class="modal fade modal_update" id="modal-lg" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa loại hợp đồng</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="updateModal"
+                        action="{{ route('organization.categories.loaihopdong.chinhsua') }}">
+                        @csrf
+                        <div class="modal-body">
+                            <input type="text" hidden id="old_identity" name="old_identity">
+                            <div class="form-group">
+                                <label for="email1">Tên loại hợp đồng</label>
+                                <input type="text" name="name" class="form-control" id="name"
+                                    aria-describedby="emailHelp" placeholder="Tên chức danh">
+                            </div>
+                            <div class="form-group">
+                                <label for="email1">Mã loại</label>
+                                <input type="text" class="form-control" id="identity" aria-describedby="emailHelp"
+                                    placeholder="Mã chức danh" name="identity">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email1">Tên tiếng anh</label>
+                                <input type="text" class="form-control" id="english_name"
+                                    aria-describedby="emailHelp" placeholder="Tên tiếng anh" name="english_name">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer border-top-0 d-flex bg-light justify-content-end">
+                            <div>
+                                <button class="btn btn-danger" data-dismiss="modal" type="button"><i
+                                        class="fa fa-close mr-1"></i> Đóng </button>
+                                <button class="btn btn-success" type="submit"><i class="fa fa-check mr-1"></i> Lưu
+                                    thông
+                                    tin </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 @endsection
 @section('script')
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
@@ -181,6 +229,16 @@
                 var id = $(this).val();
                 $('#id').val(id);
                 $('#deleteDepartment').modal('show');
+            });
+
+            $('.update_modal').click(function(e) {
+                e.preventDefault();
+
+                var item = $(this).data('id');
+                $('#old_identity').val(item.identity)
+                $('#name').val(item.name);
+                $('#identity').val(item.identity)
+                $('#english_name').val(item.english_name)
             });
         });
     </script>

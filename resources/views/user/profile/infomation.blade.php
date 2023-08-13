@@ -1,3 +1,6 @@
+@php
+    use Carbon\Carbon;
+@endphp
 @extends('user.index')
 
 @section('content')
@@ -16,6 +19,9 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @php
+                        $employee = Auth::guard('web')->user();
+                    @endphp
                     <div class="row">
                         <div class="col-lg-6">
                             <p>Mã nhân viên</p>
@@ -67,19 +73,17 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <p>Trạng thái</p>
-                            <p>Công ty</p>
                             <p>Phòng ban</p>
                             <p>Vị trí công việc</p>
                             <p>Chức danh</p>
                             <p>Thời gian giữ vị trí công việc</p>
                         </div>
                         <div class="col-lg-6">
-                            <p>Trạng thái</p>
-                            <p>Công ty</p>
-                            <p>Phòng ban</p>
-                            <p>Vị trí công việc</p>
-                            <p>Chức danh</p>
-                            <p>Thời gian giữ vị trí công việc</p>
+                            <p>{{ $employee->working_status ?? 'Chưa có' }}</p>
+                            <p>{{ $employee->department ?? 'Chưa có' }}</p>
+                            <p>{{ $employee->position ?? 'Chưa có' }}</p>
+                            <p>{{ $employee->title ?? 'Chưa có' }}</p>
+                            <p>{{ Carbon::parse(now())->diffInDays(Carbon::parse($employee->start_working_date)) ?? '0'}} ngày</p>
                         </div>
                     </div>
                     <div class="row">
@@ -95,9 +99,9 @@
                             <p>Ngày vào làm</p>
                         </div>
                         <div class="col-lg-6">
-                            <p>Trạng thái</p>
-                            <p>Công ty</p>
-                            <p>Phòng ban</p>
+                            <p>{{ $employee->contract_start ?? 'Chưa có' }}</p>
+                            <p>{{ $employee->contract_type ?? 'Chưa có' }}</p>
+                            <p>{{ $employee->start_working_date ?? 'Chưa có' }}</p>
 
                         </div>
                     </div>
